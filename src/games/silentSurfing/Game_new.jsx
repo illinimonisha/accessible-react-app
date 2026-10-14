@@ -16,6 +16,8 @@ import green_sound from '../../assets/audio/green.mp3';
 import red_sound from '../../assets/audio/red.mp3';
 import yellow_sound from '../../assets/audio/yellow.mp3';
 
+const getBallRadius = (height) =>
+  height * 0.10 * (window.matchMedia('(max-width: 1024px)').matches ? 0.9 : 1);
 
 const AuditoryGame = () => {
   const { round } = useParams();
@@ -64,7 +66,7 @@ const AuditoryGame = () => {
       const rect = svgRef.current.getBoundingClientRect();
       svgWidth.current = rect.width;
       svgHeight.current = rect.height;
-      radius.current = svgHeight.current * 0.10;
+      radius.current = getBallRadius(svgHeight.current);
       resetGameRef.current();
     });
 
@@ -109,7 +111,7 @@ const AuditoryGame = () => {
 
     svgWidth.current = svgRef.current.getBoundingClientRect().width;
     svgHeight.current = svgRef.current.getBoundingClientRect().height;
-    radius.current = svgHeight.current * 0.10;
+    radius.current = getBallRadius(svgHeight.current);
     gameEndedRef.current = false;
 
     let balls = [];
@@ -243,6 +245,41 @@ const AuditoryGame = () => {
       }
     }
 
+    function resolveBallCollisions() {
+      for (let i = 0; i < balls.length; i++) {
+        for (let j = i + 1; j < balls.length; j++) {
+          const first = balls[i];
+          const second = balls[j];
+          const dx = second.x - first.x;
+          const dy = second.y - first.y;
+          const distance = Math.hypot(dx, dy);
+          const minDistance = radius.current * 2;
+
+          if (distance >= minDistance) continue;
+
+          const normalX = distance === 0 ? 1 : dx / distance;
+          const normalY = distance === 0 ? 0 : dy / distance;
+          const overlap = minDistance - distance;
+
+          first.x -= normalX * overlap / 2;
+          first.y -= normalY * overlap / 2;
+          second.x += normalX * overlap / 2;
+          second.y += normalY * overlap / 2;
+
+          const relativeVelocity =
+            (second.dx - first.dx) * normalX +
+            (second.dy - first.dy) * normalY;
+
+          if (relativeVelocity < 0) {
+            first.dx += relativeVelocity * normalX;
+            first.dy += relativeVelocity * normalY;
+            second.dx -= relativeVelocity * normalX;
+            second.dy -= relativeVelocity * normalY;
+          }
+        }
+      }
+    }
+
     function moveBalls() {
       if (gameEndedRef.current) return;
 
@@ -253,6 +290,10 @@ const AuditoryGame = () => {
         if (ball.x - radius.current <= 0 || ball.x + radius.current >= svgWidth.current) ball.dx *= -1;
         if (ball.y - radius.current <= 0 || ball.y + radius.current >= svgHeight.current) ball.dy *= -1;
 
+      });
+
+      resolveBallCollisions();
+      balls.forEach(ball => {
         ball.element.setAttribute('transform', `translate(${ball.x}, ${ball.y})`);
       });
 

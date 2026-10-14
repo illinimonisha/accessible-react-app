@@ -13,6 +13,8 @@ import tieImage from '../../assets/tie.png';
 import GameShell from '../GameShell';
 import './game.css';
 
+const getBallRadius = (height) =>
+    height * 0.10 * (window.matchMedia('(max-width: 1024px)').matches ? 0.9 : 1);
 
 const DimmedDetailsGame = () =>{
   // The components below are more dynamic than vars housed within UseEffect, so we define them here.
@@ -71,7 +73,7 @@ const DimmedDetailsGame = () =>{
     if (zoomPercent < 200) {   // increase ball size without moving them
       const newScale = ballScale + 0.1;
       setBallScale(newScale);
-      const newRadius = svgHeight.current * 0.10 * newScale;
+      const newRadius = getBallRadius(svgHeight.current) * newScale;
       ballsRef.current.forEach(ball => {
         const circle = ball.element.querySelector('circle');
         if (circle) circle.setAttribute('r', newRadius);
@@ -89,7 +91,7 @@ const DimmedDetailsGame = () =>{
     if (zoomPercent > 60) { // decrease ball size without moving them
       const newScale = Math.max(0.1, ballScale - 0.1);
       setBallScale(newScale);
-      const newRadius = svgHeight.current * 0.10 * newScale;
+      const newRadius = getBallRadius(svgHeight.current) * newScale;
       // setFontSize(newRadius * 2); // scale font size proportionally with ball radius
       ballsRef.current.forEach(ball => {
         const circle = ball.element.querySelector('circle');
@@ -109,7 +111,7 @@ const DimmedDetailsGame = () =>{
       svgWidth.current = rect.width;
       svgHeight.current = rect.height;
 
-      radius.current = svgHeight.current * 0.10;  // update radius based on new height
+      radius.current = getBallRadius(svgHeight.current);  // update radius based on new height
       resetGameRef.current();   // reset game to apply new dimensions
     });
 
@@ -163,7 +165,7 @@ const DimmedDetailsGame = () =>{
     
     svgWidth.current = width;
     svgHeight.current = height;
-    radius.current = svgHeight.current * 0.10;
+    radius.current = getBallRadius(svgHeight.current);
     gameEndedRef.current = false;
 
     let balls = [];
@@ -315,6 +317,41 @@ const DimmedDetailsGame = () =>{
         }
     }
 
+    function resolveBallCollisions() {
+        for (let i = 0; i < balls.length; i++) {
+            for (let j = i + 1; j < balls.length; j++) {
+                const first = balls[i];
+                const second = balls[j];
+                const dx = second.x - first.x;
+                const dy = second.y - first.y;
+                const distance = Math.hypot(dx, dy);
+                const minDistance = radius.current * 2;
+
+                if (distance >= minDistance) continue;
+
+                const normalX = distance === 0 ? 1 : dx / distance;
+                const normalY = distance === 0 ? 0 : dy / distance;
+                const overlap = minDistance - distance;
+
+                first.x -= normalX * overlap / 2;
+                first.y -= normalY * overlap / 2;
+                second.x += normalX * overlap / 2;
+                second.y += normalY * overlap / 2;
+
+                const relativeVelocity =
+                    (second.dx - first.dx) * normalX +
+                    (second.dy - first.dy) * normalY;
+
+                if (relativeVelocity < 0) {
+                    first.dx += relativeVelocity * normalX;
+                    first.dy += relativeVelocity * normalY;
+                    second.dx -= relativeVelocity * normalX;
+                    second.dy -= relativeVelocity * normalY;
+                }
+            }
+        }
+    }
+
     function moveBalls() {
         if (gameEndedRef.current) return; // balls stop moving at game end
     
@@ -330,7 +367,10 @@ const DimmedDetailsGame = () =>{
                 ball.dy *= -1;
             }
     
-            // move entire group (ball + text)
+        });
+
+        resolveBallCollisions();
+        balls.forEach(ball => {
             ball.element.setAttribute('transform', `translate(${ball.x}, ${ball.y})`);
         });
     

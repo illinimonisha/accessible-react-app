@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Card, Row, Col } from 'react-bootstrap';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -20,6 +20,11 @@ import { Link } from 'react-router-dom';
  * Displays the main landing page with game cards and hero section
  */
 function K8Page() {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const categories = ['Vision', 'Dexterity', 'Auditory', 'Cognitive', 'All'];
+  const isCategoryVisible = (category) =>
+    selectedCategory === 'All' || selectedCategory === category;
+
   return (
     <div>
       <Header />
@@ -72,8 +77,22 @@ function K8Page() {
       {/* Games Grid Section */}
       <section className="py-5">
         <Container>
+          <div className="game-filters mb-4" role="group" aria-label="Filter games by category">
+            {categories.map((category) => (
+              <button
+                key={category}
+                type="button"
+                className={`game-filter-button${selectedCategory === category ? ' is-selected' : ''}`}
+                aria-pressed={selectedCategory === category}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
           <Row className="g-4 justify-content-center">
             {/* Color Clash */}
+            {isCategoryVisible('Vision') && (
             <Col lg={4} md={6}>
               <Card
                 as={Link}
@@ -91,8 +110,10 @@ function K8Page() {
                 </Card.Body>
               </Card>
             </Col>
+            )}
 
             {/* Dimmed Details */}
+            {isCategoryVisible('Vision') && (
             <Col lg={4} md={6}>
               <Card
                 as={Link}
@@ -110,8 +131,10 @@ function K8Page() {
                 </Card.Body>
               </Card>
             </Col>
+            )}
 
             {/* Sightless Search */}
+            {isCategoryVisible('Vision') && (
             <Col lg={4} md={6}>
               <Card
                 as={Link}
@@ -129,9 +152,11 @@ function K8Page() {
                 </Card.Body>
               </Card>
             </Col>
+            )}
           
 
             {/* Silent Surfing */}
+            {isCategoryVisible('Auditory') && (
             <Col lg={4} md={6}>
               <Card
                 as={Link}
@@ -150,8 +175,10 @@ function K8Page() {
               
               </Card>
             </Col>
+            )}
 
             {/* Touch Screen */}
+            {isCategoryVisible('Dexterity') && (
             <Col lg={4} md={6}>
               <motion.div initial="rest" whileHover="hover" whileFocus="hover">
                   <Card className="game-card h-100 shadow-sm border-0">
@@ -167,9 +194,11 @@ function K8Page() {
                   </Card>
                 </motion.div>
             </Col>
+            )}
             
 
             {/* Hesitant Hover */}
+            {isCategoryVisible('Dexterity') && (
             <Col lg={4} md={6}>
               <Card
                 as={Link}
@@ -188,10 +217,12 @@ function K8Page() {
                 
               </Card>
             </Col>
+            )}
             
           
 
             {/* Scrambled Script */}
+            {isCategoryVisible('Cognitive') && (
             <Col lg={4} md={6}>
               <motion.div initial="rest" whileHover="hover" whileFocus="hover">
                 <Card 
@@ -211,9 +242,11 @@ function K8Page() {
                 </Card>
               </motion.div>
             </Col>
+            )}
           
 
             {/* ADHD */}
+            {isCategoryVisible('Cognitive') && (
             <Col lg={4} md={6}>
               <Card
                 className="game-card h-100 shadow-sm border-0"
@@ -230,6 +263,7 @@ function K8Page() {
                 
               </Card>
             </Col>
+            )}
             
 
             
