@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ProgressBar } from 'react-bootstrap';
 
+export const GAME_ROUND_DURATION_SECONDS = 10; // Restore to 30 seconds after testing.
+
 function CountdownTimer({ initialTime, onComplete}) {
     const [timeRemaining, setTimeRemaining] = useState(initialTime);
 

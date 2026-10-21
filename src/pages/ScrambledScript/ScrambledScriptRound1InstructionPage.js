@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 function ScrambledScriptInstructionPage() {
   // Instruction content for Round 1
   const instructions = [
-    "In this round, you will have 30 seconds to pop as many balls as possible.",
+    "In this round, you will have 10 seconds to pop as many balls as possible.",
     "You will see and hear instructions to pop a ball with a specific word.",
     "Popping the correct word increases your score, while popping the incorrect word decreases your score and increases the computer’s.",
     <strong>Please make sure your computer volume is on.</strong>,
@@ -39,4 +39,3 @@ function ScrambledScriptInstructionPage() {
 }
 
 export default ScrambledScriptInstructionPage;
-

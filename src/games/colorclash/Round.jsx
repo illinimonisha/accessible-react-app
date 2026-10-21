@@ -26,7 +26,7 @@ function getCardBody(roundNumber, img1, img2, alt1, alt2) {
         <Row className="align-items-center p-4">
           <Col>
             <ul>
-              <li>In this round, you will have 30 seconds to pop as many red or green balloons as possible.</li>
+              <li>In this round, you will have 10 seconds to pop as many red or green balloons as possible.</li>
               <li>You will see instructions to pop either a red or green balloon displayed underneath the time bar.</li>
               <li>Popping the correct color increases your score, while popping the incorrect color decreases your score and increases the computer's.</li>
               <li>Click the arrow to begin!</li>

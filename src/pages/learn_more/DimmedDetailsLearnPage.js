@@ -337,6 +337,7 @@ function DimmedDetailsLearn() {
       subtitle="Designing for Low Vision and More"
       imagePath={process.env.PUBLIC_URL + "/icons/dimmedDetails/dimmedDetailsLearnMoreIcon.png"}
       content={content}
+      v3GameId="dimmed-details"
     />
   );
 }

@@ -306,6 +306,7 @@ function ColorBlindnessLearn() {
       subtitle="Designing for Color Blindness and More"
       imagePath={process.env.PUBLIC_URL + "/icons/color-blindness-illustration.png"}
       content={content}
+      v3GameId="color-clash"
     />
   );
 }

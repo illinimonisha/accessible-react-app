@@ -6,11 +6,12 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import CountdownTimer from '../../game_tools/CountdownTimer';
+import CountdownTimer, { GAME_ROUND_DURATION_SECONDS } from '../../game_tools/CountdownTimer';
 import robotImage from '../../assets/robot.png';
 import manImage from '../../assets/man_win.png';
 import tieImage from '../../assets/tie.png';
 import GameShell from '../GameShell';
+import { recordV3RoundCompletion } from '../../pages/V3/v3Journey';
 
 import green_sound from '../../assets/audio/green.mp3';
 import red_sound from '../../assets/audio/red.mp3';
@@ -91,6 +92,7 @@ const AuditoryGame = () => {
       const updatedScores = [...filteredScores, { roundNumber, curr_player_score, curr_computer_score }];
       updatedScores.sort((a, b) => a.roundNumber - b.roundNumber);
       localStorage.setItem('silent_surfing_scores', JSON.stringify(updatedScores));
+      recordV3RoundCompletion('silent-surfing', roundNumber);
 
       if (roundNumber < ROUND_4) {
         navigate(`/silent-surfing/round-${roundNumber + 1}`);
@@ -325,7 +327,7 @@ const AuditoryGame = () => {
           <Row>
             <Col className="text-end"><h3 id="playerScore">Player: {playerScore}</h3></Col>
             <Col>
-              <CountdownTimer initialTime={10} onComplete={() => stopGameRef.current()} />
+              <CountdownTimer initialTime={GAME_ROUND_DURATION_SECONDS} onComplete={() => stopGameRef.current()} />
             </Col>
             <Col className="text-start"><h3 id="computerScore">Computer: {computerScore}</h3></Col>
           </Row>

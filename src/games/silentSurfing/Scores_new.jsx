@@ -6,11 +6,18 @@ import Col from 'react-bootstrap/Col';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Suspense, lazy } from 'react';
 import GameShell from '../GameShell';
+import {
+  canCompleteV3Game,
+  completeV3GameAndReturn,
+  isV3JourneyRoute,
+} from '../../pages/V3/v3Journey';
 
 const ScoreGraph = lazy(() => import('./ScoreGraph_new'));
 
 export default function AuditoryGameScoreboard() {
   const navigate = useNavigate();
+  const isV3Journey = isV3JourneyRoute();
+  const canContinueV3 = canCompleteV3Game('silent-surfing');
 
   const scores = JSON.parse(localStorage.getItem('silent_surfing_scores') || '[]');
 
@@ -61,9 +68,23 @@ export default function AuditoryGameScoreboard() {
 
           <Row style={{ padding: '40px' }}>
             <Col className='text-end'>
-              <Button variant="link" size="lg" style={{ color: 'black' }} onClick={() => navigate('/silent-surfing/learn-more')}>
-                <FaArrowRightLong size={30} />
-              </Button>
+              <div className="d-flex justify-content-end align-items-center gap-3 flex-wrap">
+                {isV3Journey && (
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    disabled={!canContinueV3}
+                    onClick={() => completeV3GameAndReturn('silent-surfing')}
+                  >
+                    Continue to Learn More
+                  </Button>
+                )}
+                {!isV3Journey && (
+                  <Button variant="link" size="lg" style={{ color: 'black' }} onClick={() => navigate('/silent-surfing/learn-more')}>
+                    <FaArrowRightLong size={30} />
+                  </Button>
+                )}
+              </div>
             </Col>
           </Row>
         </div>

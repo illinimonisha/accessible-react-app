@@ -81,6 +81,10 @@
   outline-offset: 3px;
 }
 
+.v3-stage-heading:focus {
+  outline: none;
+}
+
 /* --- NEW: standardized card body & icon box --- */
 .game-card-body {
   display: flex;

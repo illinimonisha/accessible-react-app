@@ -4,8 +4,14 @@ import { Container, Button, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { Link } from 'react-router-dom';
+import { beginV3Game, getV3EntryMode } from '../V3/v3Journey';
 
 function ColorClashPage() {
+  const v3EntryMode = getV3EntryMode('color-clash');
+  const isV3Flow = v3EntryMode !== null;
+  const canStart = !isV3Flow || v3EntryMode === 'start';
+  const canLearn = !isV3Flow || v3EntryMode === 'learn';
+
   return (
     <div style={{ overflowX: 'hidden' }}>
       <Header />
@@ -43,7 +49,16 @@ function ColorClashPage() {
           <Row className="justify-content-center g-4">
 
             {/* Start Game */}
-            <Col md={6} className="text-center">
+            <Col
+              md={6}
+              className="text-center"
+              style={isV3Flow ? {
+                opacity: canStart ? 1 : 0.62,
+                outline: canStart ? '3px solid rgba(13, 110, 253, 0.45)' : undefined,
+                outlineOffset: '5px',
+                borderRadius: 12,
+              } : undefined}
+            >
               <div
                 style={{
                   backgroundColor: '#78A9CF',
@@ -68,7 +83,13 @@ function ColorClashPage() {
               </div>
 
               <Button
-                as={Link} to="/color-clash/round-1"
+                as={canStart ? Link : 'button'}
+                to={canStart ? '/color-clash/round-1' : undefined}
+                disabled={!canStart}
+                aria-label={!canStart ? 'Start Game is unavailable during this V3 step' : undefined}
+                onClick={isV3Flow && canStart ? (event) => {
+                  if (!beginV3Game('color-clash')) event.preventDefault();
+                } : undefined}
                 size="lg"
                 className="mt-3 px-4 py-2 fw-semibold"
                 style={{
@@ -87,7 +108,16 @@ function ColorClashPage() {
             </Col>
 
             {/* Implementing Accessibility */}
-            <Col md={6} className="text-center">
+            <Col
+              md={6}
+              className="text-center"
+              style={isV3Flow ? {
+                opacity: canLearn ? 1 : 0.62,
+                outline: canLearn ? '3px solid rgba(13, 110, 253, 0.45)' : undefined,
+                outlineOffset: '5px',
+                borderRadius: 12,
+              } : undefined}
+            >
               <div
                 style={{
                   backgroundColor: '#78A9CF',
@@ -124,7 +154,10 @@ function ColorClashPage() {
               </div>
 
               <Button
-                as={Link} to="/color-clash/learn-more"
+                as={canLearn ? Link : 'button'}
+                to={canLearn ? '/color-clash/learn-more' : undefined}
+                disabled={!canLearn}
+                aria-label={!canLearn ? 'Learn More is unavailable until after the game is complete' : undefined}
                 variant="primary"
                 size="lg"
                 className="mt-3 px-4 py-2 fw-semibold"

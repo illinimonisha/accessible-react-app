@@ -2,7 +2,12 @@
 import React from 'react';
 import Footer from '../components/Footer'; 
 import Header from '../components/Header';
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
+import {
+  completeV3LearnMore,
+  getV3EntryMode,
+  isV3JourneyRoute,
+} from '../pages/V3/v3Journey';
 
 /**
  * LearnMorePage
@@ -18,7 +23,15 @@ function LearnMorePage({
   subtitle = '',
   imagePath = null,
   content = null,
+  v3GameId = null,
 }) {
+  const isV3Flow = isV3JourneyRoute();
+  const canAdvanceV3 = Boolean(
+    isV3Flow &&
+    v3GameId &&
+    getV3EntryMode(v3GameId) === 'learn'
+  );
+
   return (
     <div
       style={{
@@ -142,6 +155,19 @@ function LearnMorePage({
           }}
         >
           {content}
+          {isV3Flow && (
+            <div className="text-center mt-4">
+              <Button
+                type="button"
+                variant="primary"
+                size="lg"
+                disabled={!canAdvanceV3}
+                onClick={() => completeV3LearnMore(v3GameId)}
+              >
+                Next
+              </Button>
+            </div>
+          )}
         </main>
       {/* </Container> */}
 

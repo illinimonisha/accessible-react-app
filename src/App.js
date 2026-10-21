@@ -1,9 +1,10 @@
 // App.js
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ScrollToTop from "./components/ScrollToTop";
 import V3HomePage from './pages/V3/V3HomePage';
+import { getV3JourneyPath, getV3RouteRedirect } from './pages/V3/v3Journey';
 
 import HomePage from './pages/HomePage';
 import K8Page from './pages/K8Page';
@@ -69,8 +70,27 @@ import SilentSurfingLearnPage from './pages/learn_more/SilentSurfingLearnPage';
 import HesitantHoverLearnPage from './pages/learn_more/HesitantHoverLearnPage';
 import { ImPieChart } from 'react-icons/im';
 
+function V3RouteGuard({ children }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const redirect = getV3RouteRedirect(location.pathname);
+
+  React.useEffect(() => {
+    if (!redirect) {
+      return;
+    }
+    if (redirect === getV3JourneyPath()) {
+      window.location.assign(redirect);
+    } else {
+      navigate(redirect, { replace: true });
+    }
+  }, [navigate, redirect]);
+
+  return redirect ? null : children;
+}
+
 function App() {
-  const isV3 = window.location.pathname.endsWith('/v3');
+  const isV3 = /\/v3\/?$/.test(window.location.pathname);
 
   if (isV3) {
     return <V3HomePage />;
@@ -79,7 +99,8 @@ function App() {
   return (
     <HashRouter>
       <ScrollToTop />
-      <Routes>
+      <V3RouteGuard>
+        <Routes>
         {/* Home */}
         <Route path="/" element={<HomePage />} />
 
@@ -149,7 +170,8 @@ function App() {
 
         {/* Fallback */}
         {/* You can add a 404 page here later if you want */}
-      </Routes>
+        </Routes>
+      </V3RouteGuard>
     </HashRouter>
   );
 }
