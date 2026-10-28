@@ -359,9 +359,34 @@ export function completeV3GameAndReturn(gameId) {
     return false;
   }
 
-  saveV3Journey({ ...journey, phase: 'learn' });
+  saveV3Journey({
+    ...journey,
+    phase: 'learn',
+    postScoreboardReturn: gameId,
+  });
   const basePath = journey.v3Path.replace(/\/v3\/?$/, '/') || '/';
   window.location.assign(`${basePath}?v3=1#${V3_GAME_ROUTES[gameId].entry}`);
+  return true;
+}
+
+export function consumeV3PostScoreboardReturn(gameId) {
+  if (!isV3JourneyRoute()) {
+    return false;
+  }
+
+  const journey = readV3Journey();
+  if (
+    journey?.stage !== 'games' ||
+    journey.currentGame !== gameId ||
+    journey.phase !== 'learn' ||
+    journey.postScoreboardReturn !== gameId
+  ) {
+    return false;
+  }
+
+  const journeyWithoutReturnMarker = { ...journey };
+  delete journeyWithoutReturnMarker.postScoreboardReturn;
+  saveV3Journey(journeyWithoutReturnMarker);
   return true;
 }
 
@@ -393,6 +418,12 @@ export function completeV3LearnMore(gameId) {
 
 export function getV3JourneyPath() {
   return readV3Journey()?.v3Path || getDefaultV3Path();
+}
+
+export function restartV3Journey() {
+  const v3Path = getV3JourneyPath();
+  sessionStorage.removeItem(V3_JOURNEY_KEY);
+  window.location.assign(v3Path);
 }
 
 export function getV3ResumeRoute() {

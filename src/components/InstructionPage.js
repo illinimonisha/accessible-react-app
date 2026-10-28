@@ -2,6 +2,8 @@ import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import V3RestartButton from './V3RestartButton';
+import { isV3JourneyRoute } from '../pages/V3/v3Journey';
 
 /**
  * InstructionPage Component
@@ -35,6 +37,7 @@ function InstructionPage({
         <Container fluid className="px-4">
           <div className="row justify-content-center">
             <div className="col-11 col-lg-10">
+              {isV3JourneyRoute() && <V3RestartButton className="mb-3" />}
               
               {/* Instruction Card - Darker blue background */}
               <div 

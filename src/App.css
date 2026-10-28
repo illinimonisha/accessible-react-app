@@ -85,6 +85,11 @@
   outline: none;
 }
 
+.v3-back-to-top:focus-visible {
+  outline: 3px solid #273c84;
+  outline-offset: 3px;
+}
+
 /* --- NEW: standardized card body & icon box --- */
 .game-card-body {
   display: flex;

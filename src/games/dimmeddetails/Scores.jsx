@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Suspense, lazy } from 'react';
 import GameShell from '../GameShell';
+import V3RestartButton from '../../components/V3RestartButton';
 import {
   canCompleteV3Game,
   completeV3GameAndReturn,
@@ -33,6 +34,7 @@ export default function DimmedDetailsScoreboard() {
       {/* Feel free to change so much UI things here to get it working! */}
       <Container fluid style={{ backgroundColor: ' #e5e9f2', minHeight: '100vh'}}>
         <div style={{ maxHeight: '90vh', overflowY: 'auto' }}>
+          <V3RestartButton className="pt-3 px-3" />
           <Row style={{padding: '20px'}}>
             <h1>Scoreboard</h1>
             <Col className="text-end">

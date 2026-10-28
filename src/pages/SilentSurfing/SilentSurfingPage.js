@@ -1,10 +1,16 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button, Row, Col } from 'react-bootstrap';
+import { FaArrowUp } from 'react-icons/fa6';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import V3RestartButton from '../../components/V3RestartButton';
 import { Link } from 'react-router-dom';
-import { beginV3Game, getV3EntryMode } from '../V3/v3Journey';
+import {
+  beginV3Game,
+  consumeV3PostScoreboardReturn,
+  getV3EntryMode,
+} from '../V3/v3Journey';
 
 function SilentSurfingPage() {
   const v3EntryMode = getV3EntryMode('silent-surfing');
@@ -12,9 +18,22 @@ function SilentSurfingPage() {
   const canStart = !isV3Flow || v3EntryMode === 'start';
   const canLearn = !isV3Flow || v3EntryMode === 'learn';
 
+  React.useEffect(() => {
+    if (!isV3Flow || !consumeV3PostScoreboardReturn('silent-surfing')) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      document.getElementById('more-about')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    });
+  }, [isV3Flow]);
+
   return (
     <div>
-      <Header />
+      <Header logoOnly={isV3Flow} />
 
       {/* HERO + ACTION */}
       <section className="py-5" style={{ backgroundColor: '#E3F2FD', position: 'relative' }}>
@@ -38,6 +57,7 @@ function SilentSurfingPage() {
         </a> */}
 
         <Container>
+          {isV3Flow && <V3RestartButton className="mb-3" />}
           <div className="text-center mb-5">
             <h1 className="display-4 fw-bold text-dark mb-2">Silent Surfing</h1>
             <p className="fs-5 text-dark mb-2">
@@ -196,7 +216,11 @@ function SilentSurfingPage() {
       </section>
 
       {/* ALWAYS VISIBLE SECTION */}
-      <section id="more-about" className="py-5 border-top">
+      <section
+        id="more-about"
+        className="py-5 border-top"
+        style={{ scrollMarginTop: isV3Flow ? '1.5rem' : undefined }}
+      >
         <Container className="text-center">
           <h2 className="fw-bold display-6 text-primary mb-4">
             More About Silent Surfing
@@ -205,6 +229,20 @@ function SilentSurfingPage() {
             This game shows what it’s like to experience technology without sound. It shows challenges faced by people who are deaf helping us create stronger visual design.
           </p>
         </Container>
+        {isV3Flow && (
+          <Container className="text-center mt-4">
+            <Button
+              type="button"
+              variant="primary"
+              size="lg"
+              className="v3-back-to-top"
+              aria-label="Back to top"
+              onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
+            >
+              <FaArrowUp aria-hidden="true" />
+            </Button>
+          </Container>
+        )}
       </section>
 
       <Footer />
