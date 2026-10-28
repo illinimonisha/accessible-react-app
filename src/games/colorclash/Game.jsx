@@ -101,8 +101,9 @@ const ColorblindGame = () =>{
     const ROUND_1 = 1; const ROUND_2 = 2; const ROUND_3 = 3; const ROUND_4 = 4;
     const RED = 'red'; const GREEN = 'green'; const YELLOW = 'yellow';
     const RED_LABEL = 'R'; const GREEN_LABEL = 'G'; const YELLOW_LABEL = 'Y';
-    const gameKeyMessage3_4 = "Controls Key:<br>Left Mouse Button = Pop Balloons<br><br>Game Key:<br>R = Red<br>G = Green<br>Y = Yellow";
-    const gameKeyMessage1_2 = "Controls Key:<br>Left Mouse Button = Pop Balloons";
+    // const gameKeyMessage3_4 = "Controls Key:<br>Left Mouse Button = Pop Balloons<br><br>Game Key:<br>R = Red<br>G = Green<br>Y = Yellow";
+    // const gameKeyMessage1_2 = "Controls Key:<br>Left Mouse Button = Pop Balloons";
+    const gameKeyMessage3_4 = "Game Key:<br>R = Red<br>G = Green<br>Y = Yellow";
     const colors_3 = [RED, GREEN, YELLOW]  
     const numBalls = 9;
     const velocity = 1; // fixed ball velocity
@@ -137,11 +138,13 @@ const ColorblindGame = () =>{
       ]
     }
 
-    // display the game key
+    // Control Key output disabled; preserve the Game Key for rounds 3 and 4.
     if (roundNumber === ROUND_3 || roundNumber === ROUND_4) {
+        // gameKeyRef.current.innerHTML = gameKeyMessage3_4;
         gameKeyRef.current.innerHTML = gameKeyMessage3_4;
     } else {
-        gameKeyRef.current.innerHTML = gameKeyMessage1_2;
+        // gameKeyRef.current.innerHTML = gameKeyMessage1_2;
+        gameKeyRef.current.innerHTML = '';
     }
 
     /************** 

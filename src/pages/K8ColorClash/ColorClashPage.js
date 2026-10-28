@@ -239,7 +239,7 @@ function ColorClashPage() {
             <strong>Permanent:</strong> A disability that diminishes an individual’s ability to perform tasks at the same capacity that the individual was able to before their condition.
           </p>
           <p>
-            <strong>Temporary:</strong> A condition that prevents an individual from performing their activities for a limited period
+            <strong>Temporary:</strong> A condition that prevents an individual from performing their activities for a limited period of time.
           </p>
           <p>
             <strong>Situational:</strong> A temporary limitation in a person’s ability to interact with their environment or technology, caused by a momentary circumstance.

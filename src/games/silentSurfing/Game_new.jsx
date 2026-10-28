@@ -339,19 +339,6 @@ const AuditoryGame = () => {
           <title id="canvas-title">Game canvas with moving balls</title>
         </svg>
 
-        <div style={{
-          position: 'absolute',
-          bottom: '20px',
-          left: '20px',
-          fontSize: '1.2rem',
-          fontWeight: 'bold',
-          color: 'black',
-          lineHeight: '1.3',
-        }}>
-          <div>CONTROL KEY:</div>
-          <div>Left Mouse Button = Pop balls</div>
-        </div>
-
         <div ref={gameKeyRef} id="gameKey"></div>
 
         <Modal ref={gameOverPopupRef} show={show} onHide={handleClose} centered>

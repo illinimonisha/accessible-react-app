@@ -205,9 +205,12 @@ function DimmedDetailsPage() {
         style={{ scrollMarginTop: isV3Flow ? '1.5rem' : undefined }}
       >
         <Container className="text-center" style={{ maxWidth: '800px' }}>
-          <h2 className="fw-bold display-6 text-primary mb-4">
-            Universally Designing For Low Vision 
-          </h2>
+           <h2 className="fw-bold display-6 mb-4" style={{color: '#303f9f',
+              textShadow: '1px 2px 2px rgba(0, 0, 0, 0.25)',
+           }}>
+                        Universally Designing For Low Vision
+                      </h2>
+
           <p className="fs-5">
             Useful for those with low vision, older adults, and also enhances vision for tired eyes!
           </p>
@@ -295,7 +298,7 @@ function DimmedDetailsPage() {
             <strong>Permanent:</strong> A disability that diminishes an individual’s ability to perform tasks at the same capacity that the individual was able to before their condition.
           </p>
           <p>
-            <strong>Temporary:</strong> A condition that prevents an individual from performing their activities for a limited period
+            <strong>Temporary:</strong> A condition that prevents an individual from performing their activities for a limited period of time.
           </p>
           <p>
             <strong>Situational:</strong> A temporary limitation in a person’s ability to interact with their environment or technology, caused by a momentary circumstance.          
