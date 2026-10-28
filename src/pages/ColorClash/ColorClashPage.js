@@ -1,7 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button, Row, Col } from 'react-bootstrap';
-import { FaArrowUp } from 'react-icons/fa6';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import V3RestartButton from '../../components/V3RestartButton';
@@ -290,13 +289,11 @@ function ColorClashPage() {
           <Container className="text-center mt-4">
             <Button
               type="button"
-              variant="primary"
-              size="lg"
+              variant="link"
               className="v3-back-to-top"
-              aria-label="Back to top"
               onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
             >
-              <FaArrowUp aria-hidden="true" />
+              Scroll up ↑ for more
             </Button>
           </Container>
         )}
