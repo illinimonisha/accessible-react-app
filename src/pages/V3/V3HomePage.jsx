@@ -7,16 +7,13 @@ import SilentSurfingIcon from '../../components/icons/SilentSurfingIcon.jsx';
 import DimmedDetailsIcon from '../../components/icons/DimmedDetailsIcons.jsx';
 import V3RestartButton from '../../components/V3RestartButton';
 import {
-  finishV3PostTest,
   getV3ResumeRoute,
   readV3Journey,
   startV3Game,
-  startV3PreTest,
   startV3Journey,
   V3_GAME_ORDER,
 } from './v3Journey';
 
-const PRE_TEST_FORM_URL = 'https://forms.gle/6p4kTRvzan6SYHxu5';
 const POST_TEST_FORM_URL = 'https://forms.gle/cfauebSKVtMtvXu79';
 const APP_BASE_PATH = window.location.pathname.replace(/\/v3\/?$/, '/') || '/';
 
@@ -134,53 +131,12 @@ function V3HomePage() {
                 type="button"
                 className="btn btn-primary btn-lg px-5 py-3"
                 onClick={() => {
-                  startV3PreTest(window.location.pathname);
-                  setStage('pretest');
+                  startV3Journey(window.location.pathname);
+                  setStage('games');
                 }}
               >
                 Let&apos;s begin
               </button>
-            </section>
-          )}
-
-          {stage === 'pretest' && (
-            <section aria-labelledby="v3-pretest-heading">
-              <h2
-                id="v3-pretest-heading"
-                className="h3 text-center mb-4 v3-stage-heading"
-                ref={stageHeadingRef}
-                tabIndex="-1"
-              >
-                Pre-test
-              </h2>
-              <div className="mx-auto" style={{ maxWidth: '900px' }}>
-                <iframe
-                  src={PRE_TEST_FORM_URL}
-                  title="Pre-test Google Form"
-                  width="100%"
-                  height="850"
-                  style={{ border: 0, maxWidth: '100%' }}
-                >
-                  Your browser does not support embedded forms. Open the pre-test at{' '}
-                  <a href={PRE_TEST_FORM_URL}>the Google Form</a>.
-                </iframe>
-                <div className="text-center mt-4">
-                  <p id="v3-proceed-instruction">
-                    Please complete the pre-test above. Once you have submitted it, click Proceed.
-                  </p>
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-lg px-5 py-3"
-                    aria-describedby="v3-proceed-instruction"
-                    onClick={() => {
-                      startV3Journey(window.location.pathname);
-                      setStage('games');
-                    }}
-                  >
-                    Proceed
-                  </button>
-                </div>
-              </div>
             </section>
           )}
 
@@ -260,48 +216,6 @@ function V3HomePage() {
             </section>
           )}
 
-          {stage === 'posttest' && (
-            <section aria-labelledby="v3-posttest-heading">
-              <h2
-                id="v3-posttest-heading"
-                className="h3 text-center mb-4 v3-stage-heading"
-                ref={stageHeadingRef}
-                tabIndex="-1"
-              >
-                Post-test
-              </h2>
-              <div className="mx-auto" style={{ maxWidth: '900px' }}>
-                <iframe
-                  src={POST_TEST_FORM_URL}
-                  title="Post-test Google Form"
-                  width="100%"
-                  height="850"
-                  style={{ border: 0, maxWidth: '100%' }}
-                >
-                  Your browser does not support embedded forms. Open the post-test at{' '}
-                  <a href={POST_TEST_FORM_URL}>the Google Form</a>.
-                </iframe>
-                <div className="text-center mt-4">
-                  <p id="v3-posttest-instruction">
-                    After completing the post-test, click Finish.
-                  </p>
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-lg px-5 py-3"
-                    aria-describedby="v3-posttest-instruction"
-                    onClick={() => {
-                      if (finishV3PostTest()) {
-                        setStage('thankyou');
-                      }
-                    }}
-                  >
-                    Finish
-                  </button>
-                </div>
-              </div>
-            </section>
-          )}
-
           {stage === 'thankyou' && (
             <section className="text-center" aria-labelledby="v3-thankyou-heading">
               <h2
@@ -315,10 +229,14 @@ function V3HomePage() {
               <p className="fs-5">
                 You&apos;ve explored how design choices can shape the way we experience games.
               </p>
-              <p className="fs-5">
-                Take that curiosity beyond the game. Question what excludes, imagine what could
-                change, and help make inclusion part of every design.
-              </p>
+              <a
+                className="btn btn-primary btn-lg px-5 py-3 mt-2"
+                href={POST_TEST_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Complete the post-test
+              </a>
             </section>
           )}
         </Container>

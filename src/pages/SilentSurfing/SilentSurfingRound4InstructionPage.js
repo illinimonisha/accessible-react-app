@@ -11,11 +11,9 @@ import { useNavigate } from 'react-router-dom';
 function SilentSurfingInstructionPage() {
   const navigate = useNavigate();
 
-  // Instruction content for Round 1
+  // Instruction content for Round 4
   const instructions = [
-    "In this round, you will have 10 seconds to pop as many red or green balloons as possible.",
-    "You will see instructions to pop either a red or green balloon displayed underneath the time bar.",
-    "Popping the correct color increases your score, while popping the incorrect color decreases your score and increases the computer's.",
+    "In this round, you will once again play without the audio, but this time you will have the assistance of the instruction text below the time bar.",
     "Click the arrow to begin!"
   ];
 

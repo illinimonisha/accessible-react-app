@@ -4,7 +4,7 @@ import { Container, Button, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import V3RestartButton from '../../components/V3RestartButton';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   beginV3Game,
   consumeV3PostScoreboardReturn,
@@ -12,6 +12,8 @@ import {
 } from '../V3/v3Journey';
 
 function SilentSurfingPage() {
+  const location = useLocation();
+  const isK8Version = new URLSearchParams(location.search).get('version') === 'k8';
   const v3EntryMode = getV3EntryMode('silent-surfing');
   const isV3Flow = v3EntryMode !== null;
   const canStart = !isV3Flow || v3EntryMode === 'start';
@@ -220,12 +222,89 @@ function SilentSurfingPage() {
         className="py-5 border-top"
         style={{ scrollMarginTop: isV3Flow ? '1.5rem' : undefined }}
       >
-        <Container className="text-center">
-          <h2 className="fw-bold display-6 text-primary mb-4">
-            More About Silent Surfing
+        <Container className="text-center" style={{ maxWidth: '800px' }}>
+          <h2
+            className="fw-bold display-6 mb-4"
+            style={{
+              color: isK8Version ? '#774FCA' : '#303f9f',
+              textShadow: isK8Version ? undefined : '1px 2px 2px rgba(0, 0, 0, 0.25)',
+            }}
+          >
+            Universally Designing for Deafness
           </h2>
-          <p className="fst-italic fs-5" style={{ maxWidth: '1000px', margin: '0 auto' }}>
-            This game shows what it’s like to experience technology without sound. It shows challenges faced by people who are deaf helping us create stronger visual design.
+          <p className="fs-5">
+            Useful for those who are deaf, hard of hearing, or have high, limited language fluency/comprehension, but also helpful in loud public spaces
+          </p>
+        </Container>
+
+        <Container className="text-center">
+          <table
+            className="text-center"
+            style={{
+              width: '60%',
+              margin: '0 auto',
+              borderCollapse: 'separate',
+              borderSpacing: '12px',
+            }}
+          >
+            <thead>
+              <tr>
+                {['Permanent', 'Temporary', 'Situational'].map((category) => (
+                  <th
+                    key={category}
+                    style={{
+                      backgroundColor: isK8Version ? '#E4D8FF' : '#B6D5EB99',
+                      border: 'none',
+                      width: '33.33%',
+                      padding: '12px',
+                      fontWeight: 'normal',
+                      fontStyle: 'italic',
+                      fontSize: '20px',
+                    }}
+                  >
+                    {category}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {[
+                  ['Deafness', 'Auditory Processing Disorder(APD)'],
+                  ['Ear infection', 'Language Barrier'],
+                  ['Noisy Environment', 'Quiet Environment'],
+                ].map((examples, index) => (
+                  <td
+                    key={index}
+                    style={{
+                      border: '1px solid black',
+                      padding: '12px',
+                      verticalAlign: 'top',
+                      width: '33.33%',
+                    }}
+                  >
+                    <ul className="text-start mb-0">
+                      {examples.map((example) => <li key={example}>{example}</li>)}
+                    </ul>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </Container>
+
+        <Container className="text-start" style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <p className="fs-5 fw-bold" style={{ color: '#272A79' }}>
+            Types of disabilities:
+          </p>
+          <p>
+            <strong>Permanent:</strong> A disability that diminishes an individual’s ability to perform tasks at the same capacity that the individual was able to before their condition.
+          </p>
+          <p>
+            <strong>Temporary:</strong> A condition that prevents an individual from performing their activities for a limited period
+          </p>
+          <p>
+            <strong>Situational:</strong> A temporary limitation in a person’s ability to interact with their environment or technology, caused by a momentary circumstance.
           </p>
         </Container>
         {isV3Flow && (

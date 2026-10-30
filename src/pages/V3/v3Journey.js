@@ -71,15 +71,6 @@ function isValidV3Journey(journey) {
     return false;
   }
 
-  if (journey.stage === 'pretest') {
-    return (
-      journey.completed.length === 0 &&
-      journey.currentGame === null &&
-      journey.phase === null &&
-      journey.rounds.length === 0
-    );
-  }
-
   if (journey.stage === 'games') {
     if (journey.completed.length >= V3_GAME_ORDER.length) {
       return false;
@@ -101,7 +92,7 @@ function isValidV3Journey(journey) {
   }
 
   return (
-    (journey.stage === 'posttest' || journey.stage === 'thankyou') &&
+    journey.stage === 'thankyou' &&
     journey.completed.length === V3_GAME_ORDER.length &&
     journey.currentGame === null &&
     journey.phase === null &&
@@ -275,17 +266,6 @@ export function startV3Journey(v3Path) {
   });
 }
 
-export function startV3PreTest(v3Path) {
-  saveV3Journey({
-    stage: 'pretest',
-    completed: [],
-    currentGame: null,
-    phase: null,
-    rounds: [],
-    v3Path,
-  });
-}
-
 export function startV3Game(gameId, v3Path) {
   const journey = readV3Journey();
   if (
@@ -410,7 +390,7 @@ export function completeV3LearnMore(gameId) {
     currentGame: null,
     phase: null,
     rounds: [],
-    stage: completed.length === V3_GAME_ORDER.length ? 'posttest' : 'games',
+    stage: completed.length === V3_GAME_ORDER.length ? 'thankyou' : 'games',
   });
   window.location.assign(journey.v3Path);
   return true;
@@ -436,14 +416,4 @@ export function getV3ResumeRoute() {
   return journey.phase === 'playing'
     ? expectedRoundRoute(journey.currentGame, journey.rounds || [])
     : routes.entry;
-}
-
-export function finishV3PostTest() {
-  const journey = readV3Journey();
-  if (!journey || journey.stage !== 'posttest') {
-    return false;
-  }
-
-  saveV3Journey({ ...journey, stage: 'thankyou' });
-  return true;
 }

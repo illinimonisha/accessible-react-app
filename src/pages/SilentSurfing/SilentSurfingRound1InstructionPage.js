@@ -13,9 +13,10 @@ function SilentSurfingInstructionPage() {
 
   // Instruction content for Round 1
   const instructions = [
-    "In this round, you will have 10 seconds to pop as many red or green balloons as possible.",
-    "You will see instructions to pop either a red or green balloon displayed underneath the time bar.",
+    "In this round, you will have 30 seconds to pop as many red or green balloons as possible.",
+    "You will hear the instructions to pop either a red or green balloon displayed underneath the time bar.",
     "Popping the correct color increases your score, while popping the incorrect color decreases your score and increases the computer's.",
+    "For this round, please make sure your computer's volume is at least 50%.",
     "Click the arrow to begin!"
   ];
 

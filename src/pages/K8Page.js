@@ -160,7 +160,7 @@ function K8Page() {
             <Col lg={4} md={6}>
               <Card
                 as={Link}
-                to="/silent-surfing"
+                to="/silent-surfing?version=k8"
                 className="game-card h-100 shadow-sm border-0 text-decoration-none"
               >
                 <Card.Body className="p-3 d-flex align-items-center">
