@@ -6,14 +6,23 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import CountdownTimer, { GAME_ROUND_DURATION_SECONDS } from '../../game_tools/CountdownTimer';
+import CountdownTimer from '../../game_tools/CountdownTimer';
 import robotImage from '../../assets/robot.png';
 import manImage from '../../assets/man_win.png';
 import tieImage from '../../assets/tie.png';
 import GameShell from '../GameShell';
 import './game.css';
 import { HiColorSwatch } from 'react-icons/hi';
-import popbat from '../../assets/scrambledscriptaudio/popbat.mp3';
+import batAudio from '../../assets/scrambledscriptaudio/pop_bat.mp3';
+import fontAudio from '../../assets/scrambledscriptaudio/pop_font.mp3';
+import beadAudio from '../../assets/scrambledscriptaudio/pop_bead.mp3';
+import boatAudio from '../../assets/scrambledscriptaudio/pop_boat.mp3';
+import bagAudio from '../../assets/scrambledscriptaudio/pop_bag.mp3';
+import ballAudio from '../../assets/scrambledscriptaudio/pop_ball.mp3';
+import tagAudio from '../../assets/scrambledscriptaudio/pop_tag.mp3';
+import hatAudio from '../../assets/scrambledscriptaudio/pop_hat.mp3';
+import bedAudio from '../../assets/scrambledscriptaudio/pop_bed.mp3';
+import tapAudio from '../../assets/scrambledscriptaudio/pop_tap.mp3';
 
 
 
@@ -25,6 +34,9 @@ const ScrambledScriptGame = () =>{
   const stopGameRef = useRef(() => {});
   const resetGameRef = useRef(() => {});
   const gameEndedRef = useRef(false);
+  const activeAudioRef = useRef(null);
+  const audioCleanupTimerRef = useRef(null);
+  const initialTargetColorRef = useRef(null);
   const svgWidth = useRef(0);
   const svgHeight = useRef(0);
   const radius = useRef(0);
@@ -38,12 +50,17 @@ const ScrambledScriptGame = () =>{
 // NEW TESTING STATES
 //
 
-//new audio
-  const popbatAudio = new Audio(popbat);
-
-  const playSound = () => {
-      popbatAudio.currentTime = 0;
-      popbatAudio.play();
+  const popAudios = {
+    bat: batAudio,
+    font: fontAudio,
+    bead: beadAudio,
+    boat: boatAudio,
+    bag: bagAudio,
+    ball: ballAudio,
+    tag: tagAudio,
+    hat: hatAudio,
+    bed: bedAudio,
+    tap: tapAudio
   };
 
   // refs for HTML elements
@@ -59,9 +76,32 @@ const ScrambledScriptGame = () =>{
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  useEffect(() => {
+    if (audioCleanupTimerRef.current !== null) {
+      clearTimeout(audioCleanupTimerRef.current);
+      audioCleanupTimerRef.current = null;
+    }
+
+    return () => {
+      audioCleanupTimerRef.current = setTimeout(() => {
+        if (activeAudioRef.current) {
+          activeAudioRef.current.pause();
+          activeAudioRef.current.currentTime = 0;
+          activeAudioRef.current = null;
+        }
+        audioCleanupTimerRef.current = null;
+      }, 0);
+    };
+  }, []);
+
 
   useEffect(() => {   // resizeObserver to update SVG dimensions for screen orientation changes
+    let first = true;
     const observer = new ResizeObserver(() => {
+      if (first) {
+        first = false;
+        return;
+      }
       if (!svgRef.current) return;  // ensure svgRef available
       
       const rect = svgRef.current.getBoundingClientRect();
@@ -137,6 +177,7 @@ const ScrambledScriptGame = () =>{
 
     let balls = [];
     let targetColor = '';
+    let animationFrameId;
     let winMessage = "WINNER IS PLAYER!";
     let tieMessage = "IT'S A TIE!";
     let loseMessage = "WINNER IS COMPUTER!";
@@ -202,19 +243,41 @@ const ScrambledScriptGame = () =>{
     function resetGame() {
         setTargetColor();
         createBalls();
-        playSound();
         // potentially set a wait here!
     }
 
-    function setTargetColor() { // for the game, pick random target color that isn't yellow
-        targetColor = colors_2[Math.floor(Math.random() * colors_2.length)];
+    function setTargetColor(isInitialSetup = false) { // for the game, pick random target color that isn't yellow
+        const shouldPlayInitialAudio = isInitialSetup && initialTargetColorRef.current === null;
+        targetColor = isInitialSetup && !shouldPlayInitialAudio
+          ? initialTargetColorRef.current
+          : colors_2[Math.floor(Math.random() * colors_2.length)];
+        if (shouldPlayInitialAudio) {
+          initialTargetColorRef.current = targetColor;
+        }
         targetColorTextRef.current.textContent = `Pop ${targetColor}!`; // do we want this text to be colored according to the target color?
-        
-        // popbatAudio.currentTime = 0;
-        // popbatAudio.play();
-        // if (targetColor === 'COLOR1') {
-        //   popbatAudio.play();
-        // }
+        if (!isInitialSetup || shouldPlayInitialAudio) {
+          playSound(targetColor);
+        }
+    }
+
+    function playSound(targetColor) {
+      const mappedAudio = popAudios[targetColor];
+      if (!mappedAudio) return;
+
+      if (activeAudioRef.current) {
+        activeAudioRef.current.pause();
+        activeAudioRef.current.currentTime = 0;
+      }
+
+      const sound = new Audio(mappedAudio);
+      activeAudioRef.current = sound;
+      sound.play().catch((error) => {
+        if (error.name === "NotAllowedError") {
+          console.log("Audio is waiting for user interaction.");
+        } else {
+          console.error("Audio playback failed:", error);
+        }
+      });
     }
 
     /************** 
@@ -324,6 +387,63 @@ const ScrambledScriptGame = () =>{
             // store group + position, color data
             balls.push({ element: group, x, y, dx, dy, color });
         }
+
+        resolveBallCollisions();
+        balls.forEach(ball => {
+            ball.element.setAttribute('transform', `translate(${ball.x}, ${ball.y})`);
+        });
+    }
+
+    function resolveBallCollisions() {
+        for (let i = 0; i < balls.length; i++) {
+            for (let j = i + 1; j < balls.length; j++) {
+                const first = balls[i];
+                const second = balls[j];
+                const dx = second.x - first.x;
+                const dy = second.y - first.y;
+                const distance = Math.hypot(dx, dy);
+                const minDistance = radius.current * 2;
+
+                if (distance >= minDistance) continue;
+
+                const normalX = distance === 0 ? 1 : dx / distance;
+                const normalY = distance === 0 ? 0 : dy / distance;
+                const overlap = minDistance - distance;
+
+                first.x -= normalX * overlap / 2;
+                first.y -= normalY * overlap / 2;
+                second.x += normalX * overlap / 2;
+                second.y += normalY * overlap / 2;
+
+                const relativeVelocity =
+                    (second.dx - first.dx) * normalX +
+                    (second.dy - first.dy) * normalY;
+
+                if (relativeVelocity < 0) {
+                    first.dx += relativeVelocity * normalX;
+                    first.dy += relativeVelocity * normalY;
+                    second.dx -= relativeVelocity * normalX;
+                    second.dy -= relativeVelocity * normalY;
+                }
+            }
+        }
+
+        balls.forEach(ball => {
+            if (ball.x - radius.current < 0) {
+                ball.x = radius.current;
+                if (ball.dx < 0) ball.dx *= -1;
+            } else if (ball.x + radius.current > svgWidth.current) {
+                ball.x = svgWidth.current - radius.current;
+                if (ball.dx > 0) ball.dx *= -1;
+            }
+            if (ball.y - radius.current < 0) {
+                ball.y = radius.current;
+                if (ball.dy < 0) ball.dy *= -1;
+            } else if (ball.y + radius.current > svgHeight.current) {
+                ball.y = svgHeight.current - radius.current;
+                if (ball.dy > 0) ball.dy *= -1;
+            }
+        });
     }
 
     function moveBalls() {
@@ -341,11 +461,14 @@ const ScrambledScriptGame = () =>{
                 ball.dy *= -1;
             }
     
-            // move entire group (ball + text)
+        });
+
+        resolveBallCollisions();
+        balls.forEach(ball => {
             ball.element.setAttribute('transform', `translate(${ball.x}, ${ball.y})`);
         });
     
-        requestAnimationFrame(moveBalls);
+        animationFrameId = requestAnimationFrame(moveBalls);
     }
 
     
@@ -358,10 +481,11 @@ const ScrambledScriptGame = () =>{
     ***************/
     resetGameRef.current = resetGame; // setting funct
     stopGameRef.current = stopGame;
-    setTargetColor();
+    setTargetColor(true);
     createBalls();
     moveBalls(); // Start movement
 
+    return () => cancelAnimationFrame(animationFrameId);
 
   }, []);
 
@@ -379,7 +503,7 @@ const ScrambledScriptGame = () =>{
             <Col className="text-end"><h3 id="playerScore">Player: {playerScore}</h3></Col>
             <Col>
               {/* Trigger game ending when time bar reaches 0! */}
-              <CountdownTimer initialTime={GAME_ROUND_DURATION_SECONDS} onComplete={() => stopGameRef.current()}/> 
+              <CountdownTimer initialTime={30} onComplete={() => stopGameRef.current()}/> 
             </Col>
             <Col className="text-start"><h3 id="computerScore">Computer: {computerScore}</h3></Col>
           </Row>
