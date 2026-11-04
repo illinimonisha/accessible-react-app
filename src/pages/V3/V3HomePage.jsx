@@ -4,7 +4,7 @@ import '../../App.css';
 import Footer from '../../components/Footer';
 import ColorClashIcon from '../../components/icons/ColorClashIcon.jsx';
 import SilentSurfingIcon from '../../components/icons/SilentSurfingIcon.jsx';
-import DimmedDetailsIcon from '../../components/icons/DimmedDetailsIcons.jsx';
+import ScrambledScriptIcon from '../../components/icons/ScrambledScriptIcon.jsx';
 import V3RestartButton from '../../components/V3RestartButton';
 import {
   getV3ResumeRoute,
@@ -33,11 +33,11 @@ const games = [
     Icon: SilentSurfingIcon,
   },
   {
-    id: 'dimmed-details',
-    title: 'Dimmed Details',
-    description: 'Accessibility for Low Vision and more',
-    to: '/dimmed-details',
-    Icon: DimmedDetailsIcon,
+    id: 'scrambled-script',
+    title: 'Scrambled Script',
+    description: 'Accessibility for Dyslexia and more',
+    to: '/scrambled-script',
+    Icon: ScrambledScriptIcon,
   },
 ];
 

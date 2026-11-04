@@ -1,6 +1,6 @@
 const V3_JOURNEY_KEY = 'equal-games:v3-journey';
 
-export const V3_GAME_ORDER = ['color-clash', 'silent-surfing', 'dimmed-details'];
+export const V3_GAME_ORDER = ['color-clash', 'silent-surfing', 'scrambled-script'];
 
 const V3_GAME_ROUTES = {
   'color-clash': {
@@ -17,12 +17,12 @@ const V3_GAME_ROUTES = {
     playPrefix: '/silent-surfing-play/game/',
     scoreboard: '/silent-surfing-play/recap',
   },
-  'dimmed-details': {
-    entry: '/dimmed-details',
-    learnMore: '/dimmed-details/learn-more',
-    roundPrefix: '/dimmed-details/round-',
-    playPrefix: '/dimmed-details-play/game/',
-    scoreboard: '/dimmed-details-play/recap',
+  'scrambled-script': {
+    entry: '/scrambled-script',
+    learnMore: '/scrambled-script/learn-more',
+    roundPrefix: '/scrambled-script/round-',
+    playPrefix: '/scrambled-script-play/game/',
+    scoreboard: '/scrambled-script-play/recap',
   },
 };
 

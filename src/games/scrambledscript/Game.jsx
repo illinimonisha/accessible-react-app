@@ -13,6 +13,10 @@ import tieImage from '../../assets/tie.png';
 import GameShell from '../GameShell';
 import './game.css';
 import { HiColorSwatch } from 'react-icons/hi';
+import {
+  isV3JourneyRoute,
+  recordV3RoundCompletion,
+} from '../../pages/V3/v3Journey';
 import batAudio from '../../assets/scrambledscriptaudio/pop_bat.mp3';
 import fontAudio from '../../assets/scrambledscriptaudio/pop_font.mp3';
 import beadAudio from '../../assets/scrambledscriptaudio/pop_bead.mp3';
@@ -134,6 +138,9 @@ const ScrambledScriptGame = () =>{
       const updatedScores = [...filteredScores, { roundNumber, curr_player_score, curr_computer_score }];
       updatedScores.sort((a, b) => a.roundNumber - b.roundNumber); // sort scores by round number (ascending order)
       localStorage.setItem('scrambledscript_scores', JSON.stringify(updatedScores));
+      if (isV3JourneyRoute()) {
+        recordV3RoundCompletion('scrambled-script', roundNumber);
+      }
 
       // redirect to next round when game ends (modal is closed)
       if (roundNumber < ROUND_4) {
@@ -155,18 +162,20 @@ const ScrambledScriptGame = () =>{
     //DYSLEXIA GAME  COLORS HAVE TO CHANGE
     const RED = 'red'; const GREEN = 'green'; const YELLOW = 'yellow';
 
-    const COLOR1 = 'font'; const COLOR2 = 'bead'; const COLOR3 = 'boat';
-    const COLOR4 = 'bag'; const COLOR5 = 'ball'; const COLOR6 = 'tag';
-    const COLOR7 = 'hat'; const COLOR8 = 'bed'; const COLOR9 = 'tap';
-
-
-    const colors_2 = [COLOR1, COLOR2, COLOR3, COLOR4, COLOR5, COLOR6, COLOR7, COLOR8, COLOR9];
-    const word_colors = ["font", "bead", "boat", "bag", "ball", "tag", "hat", "bed", "tap"];
-    const dsy_colors = ["heq", "peaq", "fonq", "qruz", "yat", "peq", "pepy", "fysn", "pirq"];    
+    const wordData = [
+      { word: 'font', altered: 'heq', color: '#A50638' },
+      { word: 'bead', altered: 'peaq', color: '#C65B95' },
+      { word: 'boat', altered: 'fonq', color: '#F8E4DC' },
+      { word: 'bag', altered: 'qruz', color: '#83C9FF' },
+      { word: 'ball', altered: 'yat', color: '#D08169' },
+      { word: 'tag', altered: 'peq', color: '#FF4900' },
+      { word: 'hat', altered: 'pepy', color: '#E2BAFF' },
+      { word: 'bed', altered: 'fysn', color: '#D188B0' },
+      { word: 'tap', altered: 'pirq', color: '#88D1A3' }
+    ];
 
     // const gameKeyMessage3_4 = "Controls Key:<br>Left Mouse Button = Pop Balloons<br><br>Game Key:<br>R = Red<br>G = Green<br>Y = Yellow";
     // const gameKeyMessage1_2 = "Controls Key:<br>Left Mouse Button = Pop Balloons";
-    const numBalls = 9;
     const velocity = 1; // fixed ball velocity
     const { width, height } = svgRef.current.getBoundingClientRect(); // getBoundingClientRect to get initial rendered size of canvas
     
@@ -176,25 +185,11 @@ const ScrambledScriptGame = () =>{
     gameEndedRef.current = false;
 
     let balls = [];
-    let targetColor = '';
+    let targetWord = '';
     let animationFrameId;
     let winMessage = "WINNER IS PLAYER!";
     let tieMessage = "IT'S A TIE!";
     let loseMessage = "WINNER IS COMPUTER!";
-
-    let colors;  // adapted from how they defined colors in old version
-      colors = [
-        {color: COLOR1, color_val: '#A50638'},
-        {color: COLOR2, color_val: '#C65B95'},
-        {color: COLOR3, color_val: '#F8E4DC'},
-        {color: COLOR4, color_val: '#83C9FF'},
-        {color: COLOR5, color_val: '#D08169'},
-        {color: COLOR6, color_val: '#FF4900'},
-        {color: COLOR7, color_val: '#E2BAFF'},
-        {color: COLOR8, color_val: '#D188B0'},
-        {color: COLOR9, color_val: '#88D1A3'}
-      ]
-    
 
     // // display the game key
     // if (roundNumber === ROUND_3 || roundNumber === ROUND_4) {
@@ -248,15 +243,15 @@ const ScrambledScriptGame = () =>{
 
     function setTargetColor(isInitialSetup = false) { // for the game, pick random target color that isn't yellow
         const shouldPlayInitialAudio = isInitialSetup && initialTargetColorRef.current === null;
-        targetColor = isInitialSetup && !shouldPlayInitialAudio
+        targetWord = isInitialSetup && !shouldPlayInitialAudio
           ? initialTargetColorRef.current
-          : colors_2[Math.floor(Math.random() * colors_2.length)];
+          : wordData[Math.floor(Math.random() * wordData.length)].word;
         if (shouldPlayInitialAudio) {
-          initialTargetColorRef.current = targetColor;
+          initialTargetColorRef.current = targetWord;
         }
-        targetColorTextRef.current.textContent = `Pop ${targetColor}!`; // do we want this text to be colored according to the target color?
+        targetColorTextRef.current.textContent = `Pop ${targetWord}!`;
         if (!isInitialSetup || shouldPlayInitialAudio) {
-          playSound(targetColor);
+          playSound(targetWord);
         }
     }
 
@@ -296,20 +291,19 @@ const ScrambledScriptGame = () =>{
         balls = [];
         svgRef.current.innerHTML = ''; // Clear previous balls
 
-        for (let i = 0; i < numBalls; i++) {
+        for (const wordEntry of wordData) {
             const { x, y, dx, dy } = getRandomPosition();
-            const { color, color_val } = colors[i % colors.length]; // get color name and color hex value
+            const { word, altered, color } = wordEntry;
         
             const group = document.createElementNS('http://www.w3.org/2000/svg', 'g'); // since SVG doesn't support text inside a circle, we group them
             group.setAttribute('transform', `translate(${x}, ${y})`); // to help move balls
             group.setAttribute('tabindex', '0'); // make balls tab-able
             group.setAttribute('role', 'button'); // announce that this is a button to screen readers
-            // group.setAttribute('aria-label', `${colors_2[i]} ball`);
             if (roundNumber === ROUND_1 || roundNumber === ROUND_3) {
-              group.setAttribute('aria-label', `${word_colors[i]} ball`);
+              group.setAttribute('aria-label', `${word} ball`);
             }
             else{
-              group.setAttribute('aria-label', `${dsy_colors[i]} ball`);
+              group.setAttribute('aria-label', `${altered} ball`);
             }
 
             //BALL
@@ -317,7 +311,7 @@ const ScrambledScriptGame = () =>{
             ball.setAttribute('cx', 0);
             ball.setAttribute('cy', 0);
             ball.setAttribute('r', radius.current);
-            ball.setAttribute('fill', color_val);
+            ball.setAttribute('fill', color);
 
 
             const size = radius.current * 0.8;
@@ -334,21 +328,21 @@ const ScrambledScriptGame = () =>{
 
             // IMAGE
             const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-            image.setAttribute("href",`${process.env.PUBLIC_URL}/icons/scrambledScript/${word_colors[i]}.svg`);
+            image.setAttribute("href",`${process.env.PUBLIC_URL}/icons/scrambledScript/${word}.svg`);
             image.setAttribute("x", -size / 2);
-            image.setAttribute("y", -size);
+            image.setAttribute("y", -radius.current * 0.9);
             image.setAttribute("width", size);
             image.setAttribute("height", size);
             
             if (roundNumber === ROUND_1 || roundNumber === ROUND_3) { 
-              text.textContent = word_colors[i]; // R1 and R3 show words without dsylexia
+              text.textContent = word;
             }
             else{
-              text.textContent = dsy_colors[i]; // R3 and R4 show words with dyslexia
+              text.textContent = altered;
             }
         
             group.addEventListener('click', function () {   // click handler for the group (text + circle)
-                if (color === targetColor) {
+                if (word === targetWord) {
                     setPlayerScore(prev => {
                       const newScore = prev + 1;
                       playerScoreRef.current = newScore;
@@ -373,19 +367,17 @@ const ScrambledScriptGame = () =>{
                 resetGameRef.current();
             });
         
-            // put group together (text + circle) and add to SVG
+            // Draw the text above its word-matched image.
             group.appendChild(ball);
-            group.appendChild(text);
-            svgRef.current.appendChild(group);
-            
-
             if (roundNumber === ROUND_3 || roundNumber === ROUND_4) {
               group.appendChild(image);
-              text.setAttribute('y', size/2); // adjustment to center text
+              text.setAttribute('y', radius.current * 0.8);
             }
+            group.appendChild(text);
+            svgRef.current.appendChild(group);
         
             // store group + position, color data
-            balls.push({ element: group, x, y, dx, dy, color });
+            balls.push({ element: group, x, y, dx, dy, word });
         }
 
         resolveBallCollisions();

@@ -301,6 +301,7 @@ function ScrambledScriptLearn() {
       subtitle="Designing for Dyslexia and More"
       imagePath={process.env.PUBLIC_URL + "/icons/scrambledScript/scrambled-script-illustration.png"}
       content={content}
+      v3GameId="scrambled-script"
     />
   );
 }

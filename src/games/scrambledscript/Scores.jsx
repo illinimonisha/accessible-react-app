@@ -6,11 +6,19 @@ import Col from 'react-bootstrap/Col';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Suspense, lazy } from 'react';
 import GameShell from '../GameShell';
+import V3RestartButton from '../../components/V3RestartButton';
+import {
+  canCompleteV3Game,
+  completeV3GameAndReturn,
+  isV3JourneyRoute,
+} from '../../pages/V3/v3Journey';
 
 const ScoreGraph = lazy(() => import('./ScoreGraph'));
 
 export default function ScrambledScriptScoreboard() {
   const navigate = useNavigate();
+  const isV3Journey = isV3JourneyRoute();
+  const canContinueV3 = canCompleteV3Game('scrambled-script');
 
   // get scores from localStorage
   const scores = JSON.parse(localStorage.getItem('scrambledscript_scores') || '[]');
@@ -26,8 +34,9 @@ export default function ScrambledScriptScoreboard() {
       {/* Feel free to change so much UI things here to get it working! */}
       <Container fluid style={{ backgroundColor: ' #e5e9f2', minHeight: '100vh'}}>
         <div style={{ maxHeight: '90vh', overflowY: 'auto' }}>
+          <V3RestartButton className="pt-3 px-3" />
           <Row style={{padding: '20px'}}>
-            <h1>Scoreboard</h1>
+            <h1>{isV3Journey ? 'Scrambled Script Scoreboard' : 'Scoreboard'}</h1>
             <Col className="text-end">
               <div className="d-flex justify-content-end align-items-center gap-2">
                 <div style={{ width: 16, height: 16, backgroundColor: '#F95F62', borderRadius: 2 }}></div>
@@ -63,9 +72,23 @@ export default function ScrambledScriptScoreboard() {
 
           <Row style={{padding: '40px'}}>
             <Col className='text-end'>
-              <Button variant="link" size="lg" style={{color: 'black'}} onClick={() => navigate(`/scrambled-script/learn-more`)}>
-                <FaArrowRightLong size={30}/>
-              </Button>
+              <div className="d-flex justify-content-end align-items-center gap-3 flex-wrap">
+                {isV3Journey && (
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    disabled={!canContinueV3}
+                    onClick={() => completeV3GameAndReturn('scrambled-script')}
+                  >
+                    Continue to Learn More
+                  </Button>
+                )}
+                {!isV3Journey && (
+                  <Button variant="link" size="lg" style={{color: 'black'}} onClick={() => navigate(`/scrambled-script/learn-more`)}>
+                    <FaArrowRightLong size={30}/>
+                  </Button>
+                )}
+              </div>
             </Col>
           </Row>
         </div>

@@ -3,17 +3,42 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import V3RestartButton from '../../components/V3RestartButton';
 import { Link } from 'react-router-dom';
+import {
+  beginV3Game,
+  consumeV3PostScoreboardReturn,
+  getV3EntryMode,
+} from '../V3/v3Journey';
 
 function ScrambledScriptPage() {
+  const v3EntryMode = getV3EntryMode('scrambled-script');
+  const isV3Flow = v3EntryMode !== null;
+  const canStart = !isV3Flow || v3EntryMode === 'start';
+  const canLearn = !isV3Flow || v3EntryMode === 'learn';
+
+  React.useEffect(() => {
+    if (!isV3Flow || !consumeV3PostScoreboardReturn('scrambled-script')) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      document.getElementById('more-about')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    });
+  }, [isV3Flow]);
+
   return (
     <div>
-      <Header />
+      <Header logoOnly={isV3Flow} />
 
       {/* HERO + ACTION */}
       <section className="py-5" style={{ backgroundColor: '#E3F2FD', position: 'relative' }}>
 
         <Container>
+          {isV3Flow && <V3RestartButton className="mb-3" />}
           <div className="text-center mb-5">
             <h1 className="display-4 fw-bold text-dark mb-2">Scrambled Script</h1>
             <p className="fs-5 text-dark mb-2">
@@ -43,7 +68,16 @@ function ScrambledScriptPage() {
           <Row className="justify-content-center g-4">
 
             {/* Start Game */}
-            <Col md={6} className="text-center">
+            <Col
+              md={6}
+              className="text-center"
+              style={isV3Flow ? {
+                opacity: canStart ? 1 : 0.62,
+                outline: canStart ? '3px solid rgba(13, 110, 253, 0.45)' : undefined,
+                outlineOffset: '5px',
+                borderRadius: 12,
+              } : undefined}
+            >
               <div
                 style={{
                   backgroundColor: '#78A9CF',
@@ -67,8 +101,13 @@ function ScrambledScriptPage() {
               </div>
 
               <Button
-                as={Link}
-                to="/scrambled-script/round-1"
+                as={canStart ? Link : 'button'}
+                to={canStart ? '/scrambled-script/round-1' : undefined}
+                disabled={!canStart}
+                aria-label={!canStart ? 'Start Game is unavailable during this V3 step' : undefined}
+                onClick={isV3Flow && canStart ? (event) => {
+                  if (!beginV3Game('scrambled-script')) event.preventDefault();
+                } : undefined}
                 size="lg"
                 className="mt-3 px-4 py-2 fw-semibold"
                 style={{
@@ -87,7 +126,16 @@ function ScrambledScriptPage() {
             </Col>
 
             {/* Implementing Accessibility */}
-            <Col md={6} className="text-center">
+            <Col
+              md={6}
+              className="text-center"
+              style={isV3Flow ? {
+                opacity: canLearn ? 1 : 0.62,
+                outline: canLearn ? '3px solid rgba(13, 110, 253, 0.45)' : undefined,
+                outlineOffset: '5px',
+                borderRadius: 12,
+              } : undefined}
+            >
               <div
                 style={{
                   backgroundColor: '#78A9CF',
@@ -123,7 +171,10 @@ function ScrambledScriptPage() {
               </div>
 
               <Button
-                as={Link} to="/scrambled-script/learn-more"
+                as={canLearn ? Link : 'button'}
+                to={canLearn ? '/scrambled-script/learn-more' : undefined}
+                disabled={!canLearn}
+                aria-label={!canLearn ? 'Learn More is unavailable during this V3 step' : undefined}
                 variant="primary"
                 size="lg"
                 className="mt-3 px-4 py-2 fw-semibold"
@@ -150,7 +201,13 @@ function ScrambledScriptPage() {
       {/* ALWAYS VISIBLE SECTION */}
         <section id="more-about" className="py-5 border-top">
           <Container className="text-center" style={{ maxWidth: '800px' }}>
-            <h2 className="fw-bold display-6 text-primary mb-4">
+            <h2
+              className={`fw-bold display-6 mb-4${isV3Flow ? '' : ' text-primary'}`}
+              style={isV3Flow ? {
+                color: '#303f9f',
+                textShadow: '1px 2px 2px rgba(0, 0, 0, 0.25)',
+              } : undefined}
+            >
               Universally Designing for Dyslexia 
             </h2>
             <p className="fs-5">
@@ -246,6 +303,19 @@ function ScrambledScriptPage() {
               <strong>Situational:</strong> A limitation in a person's ability to interact with their environment or technology, caused by a momentary circumstance.
             </p>
           </Container>
+
+          {isV3Flow && (
+            <Container className="text-center mt-4">
+              <Button
+                type="button"
+                variant="link"
+                className="v3-back-to-top"
+                onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
+              >
+                Scroll up ↑ for more
+              </Button>
+            </Container>
+          )}
         </section>
 
       <Footer />
