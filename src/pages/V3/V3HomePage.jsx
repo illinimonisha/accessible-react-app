@@ -224,18 +224,18 @@ function V3HomePage() {
                 ref={stageHeadingRef}
                 tabIndex="-1"
               >
-                Thank you for participating!
+                Please Complete Your Post-Survey as the Next Step
               </h2>
-              <p className="fs-5">
+              {/* <p className="fs-5">
                 You&apos;ve explored how design choices can shape the way we experience games.
-              </p>
+              </p> */}
               <a
-                className="btn btn-primary btn-lg px-5 py-3 mt-2"
+                className="btn btn-primary btn-lg fs-4 fw-bold px-5 py-4 mt-2"
                 href={POST_TEST_FORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Complete the post-test
+                Click here to complete the Post-Survey
               </a>
             </section>
           )}

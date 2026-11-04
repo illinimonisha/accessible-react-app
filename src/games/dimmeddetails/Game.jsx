@@ -434,7 +434,7 @@ const DimmedDetailsGame = () =>{
 
 
         { /* Game over modal */ }
-        <Modal ref={gameOverPopupRef} show={show} onHide={handleClose} centered>
+        <Modal ref={gameOverPopupRef} show={show} onHide={handleClose} backdrop="static" keyboard={false} centered>
           <Modal.Header style={{ backgroundColor: MODAL_COLOR}}>
             <Modal.Title className='w-100 text-center'><h2>{gameOverMessage}</h2></Modal.Title>
           </Modal.Header>
