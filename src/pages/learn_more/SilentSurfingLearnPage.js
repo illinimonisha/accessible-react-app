@@ -157,12 +157,7 @@ function SilentSurfingLearn() {
           );
         })()}
         
-        
-        {/* I have commented this out...if needed, update it with the appropriate text. */}
-        <p style={{ maxWidth: 780, margin: '2.0rem auto 0', lineHeight: 1.55 }}>
-          Comment: need to update INFO here.
-        </p>
-        */}
+       
 
 
       </section>

@@ -52,6 +52,7 @@ const AuditoryGame = () => {
   const targetColorTextRef = useRef(null);
   const resultMessageRef = useRef(null);
   const gameOverPopupRef = useRef(null);
+  const initialTargetColorRef = useRef(null);
 
   const [gameOverMessage, setGameOverMessage] = useState("");
 
@@ -61,6 +62,7 @@ const AuditoryGame = () => {
 
 
   useEffect(() => {   // resizeObserver to update SVG dimensions for screen orientation changes
+    let isInitialObservation = true;
     const observer = new ResizeObserver(() => {
       if (!svgRef.current) return;
 
@@ -68,6 +70,11 @@ const AuditoryGame = () => {
       svgWidth.current = rect.width;
       svgHeight.current = rect.height;
       radius.current = getBallRadius(svgHeight.current);
+      if (isInitialObservation) {
+        isInitialObservation = false;
+        resetGameRef.current(roundNumber === 1 || roundNumber === 3 ? false : true);
+        return;
+      }
       resetGameRef.current();
     });
 
@@ -156,13 +163,23 @@ const AuditoryGame = () => {
       });
     }
 
-    function resetGame() {
-      setTargetColor();
+    function resetGame(selectNewTarget = true) {
+      if (selectNewTarget) {
+        setTargetColor();
+      }
       createBalls();
     }
 
-    function setTargetColor() {
-      targetColor = colors_2[Math.floor(Math.random() * colors_2.length)];
+    function setTargetColor(isInitialSetup = false) {
+      const hasInitialAudio = roundNumber === 1 || roundNumber === 3;
+      const isFirstInitialTarget =
+        isInitialSetup && hasInitialAudio && initialTargetColorRef.current === null;
+      targetColor = isInitialSetup && hasInitialAudio && !isFirstInitialTarget
+        ? initialTargetColorRef.current
+        : colors_2[Math.floor(Math.random() * colors_2.length)];
+      if (isInitialSetup && hasInitialAudio) {
+        initialTargetColorRef.current = targetColor;
+      }
 
       // Show text label only in rounds 3 and 4
       if (roundNumber === 3 || roundNumber === 4) {
@@ -172,7 +189,10 @@ const AuditoryGame = () => {
       }
 
       // Play audio cue only in rounds 1 and 3
-      if (roundNumber === 1 || roundNumber === 3) {
+      if (
+        hasInitialAudio &&
+        (!isInitialSetup || isFirstInitialTarget)
+      ) {
         const audioFile = colorAudioMap[targetColor];
         if (audioFile) {
           const audio = new Audio(audioFile);
@@ -308,7 +328,7 @@ const AuditoryGame = () => {
     resetGameRef.current = resetGame;
     stopGameRef.current = stopGame;
 
-    setTargetColor();
+    setTargetColor(true);
     createBalls();
     moveBalls();
 

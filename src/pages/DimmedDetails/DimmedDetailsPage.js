@@ -294,13 +294,13 @@ function DimmedDetailsPage() {
             Types of disabilities:         
           </p>
           <p>
-            <strong>Permanent:</strong> A disability that diminishes an individual’s ability to perform tasks at the same capacity that the individual was able to before their condition.
+            <strong>Permanent:</strong> A lifelong or long-term disability that may affect how an individual interacts with their environment or technology.
           </p>
           <p>
-            <strong>Temporary:</strong> A condition that prevents an individual from performing their activities for a limited period of time.
+            <strong>Temporary:</strong> A temporary condition that affects an individual's ability to perform activities or interact with their environment for a limited period.
           </p>
           <p>
-            <strong>Situational:</strong> A temporary limitation in a person’s ability to interact with their environment or technology, caused by a momentary circumstance.          
+            <strong>Situational:</strong> A limitation in a person's ability to interact with their environment or technology, caused by a momentary circumstance.
           </p>
         </Container>
         {isV3Flow && (

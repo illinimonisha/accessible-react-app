@@ -190,8 +190,8 @@ const ColorblindGame = () =>{
         // potentially set a wait here!
     }
 
-    function setTargetColor() { // for the game, pick random target color that isn't yellow
-        const targetColors = roundNumber === ROUND_2 || roundNumber === ROUND_4
+    function setTargetColor() { // for the game rounds 1,3, and 4 , pick random target color that isn't yellow
+        const targetColors = roundNumber === ROUND_1 || roundNumber === ROUND_2 || roundNumber === ROUND_4
           ? [RED, GREEN]
           : colors_3;
         targetColor = targetColors[Math.floor(Math.random() * targetColors.length)];
