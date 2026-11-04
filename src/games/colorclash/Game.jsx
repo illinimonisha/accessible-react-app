@@ -191,7 +191,10 @@ const ColorblindGame = () =>{
     }
 
     function setTargetColor() { // for the game, pick random target color that isn't yellow
-        targetColor = colors_3[Math.floor(Math.random() * colors_3.length)];
+        const targetColors = roundNumber === ROUND_2 || roundNumber === ROUND_4
+          ? [RED, GREEN]
+          : colors_3;
+        targetColor = targetColors[Math.floor(Math.random() * targetColors.length)];
         targetColorTextRef.current.textContent = `Pop ${targetColor}!`; // do we want this text to be colored according to the target color?
     }
 
