@@ -162,17 +162,17 @@ const ScrambledScriptGame = () =>{
     //DYSLEXIA GAME  COLORS HAVE TO CHANGE
     const RED = 'red'; const GREEN = 'green'; const YELLOW = 'yellow';
 
-    const wordData = [
-      { word: 'font', altered: 'heq', color: '#A50638' },
-      { word: 'bead', altered: 'peaq', color: '#C65B95' },
-      { word: 'boat', altered: 'fonq', color: '#F8E4DC' },
-      { word: 'bag', altered: 'qruz', color: '#83C9FF' },
-      { word: 'ball', altered: 'yat', color: '#D08169' },
-      { word: 'tag', altered: 'peq', color: '#FF4900' },
-      { word: 'hat', altered: 'pepy', color: '#E2BAFF' },
-      { word: 'bed', altered: 'fysn', color: '#D188B0' },
-      { word: 'tap', altered: 'pirq', color: '#88D1A3' }
+    const word_colors = ["font", "bead", "boat", "bag", "ball", "tag", "hat", "bed", "tap"];
+    const dsy_colors = ["fonq", "peaq", "doaʇ", "peg", "pell", "ʇaq", "heq", "peq", "qat"];
+    const wordColorValues = [
+      '#A50638', '#C65B95', '#F8E4DC', '#83C9FF', '#D08169',
+      '#FF4900', '#E2BAFF', '#D188B0', '#88D1A3'
     ];
+    const wordData = word_colors.map((word, index) => ({
+      word,
+      altered: dsy_colors[index],
+      color: wordColorValues[index],
+    }));
 
     // const gameKeyMessage3_4 = "Controls Key:<br>Left Mouse Button = Pop Balloons<br><br>Game Key:<br>R = Red<br>G = Green<br>Y = Yellow";
     // const gameKeyMessage1_2 = "Controls Key:<br>Left Mouse Button = Pop Balloons";
@@ -185,7 +185,7 @@ const ScrambledScriptGame = () =>{
     gameEndedRef.current = false;
 
     let balls = [];
-    let targetWord = '';
+    let targetEntry = null;
     let animationFrameId;
     let winMessage = "WINNER IS PLAYER!";
     let tieMessage = "IT'S A TIE!";
@@ -243,15 +243,16 @@ const ScrambledScriptGame = () =>{
 
     function setTargetColor(isInitialSetup = false) { // for the game, pick random target color that isn't yellow
         const shouldPlayInitialAudio = isInitialSetup && initialTargetColorRef.current === null;
-        targetWord = isInitialSetup && !shouldPlayInitialAudio
+        const targetWord = isInitialSetup && !shouldPlayInitialAudio
           ? initialTargetColorRef.current
           : wordData[Math.floor(Math.random() * wordData.length)].word;
+        targetEntry = wordData.find(entry => entry.word === targetWord);
         if (shouldPlayInitialAudio) {
-          initialTargetColorRef.current = targetWord;
+          initialTargetColorRef.current = targetEntry.word;
         }
-        targetColorTextRef.current.textContent = `Pop ${targetWord}!`;
+        targetColorTextRef.current.textContent = `Pop ${targetEntry.word}!`;
         if (!isInitialSetup || shouldPlayInitialAudio) {
-          playSound(targetWord);
+          playSound(targetEntry.word);
         }
     }
 
@@ -342,7 +343,10 @@ const ScrambledScriptGame = () =>{
             }
         
             group.addEventListener('click', function () {   // click handler for the group (text + circle)
-                if (word === targetWord) {
+                const isCorrectSelection = roundNumber === ROUND_2
+                  ? altered === targetEntry.altered
+                  : word === targetEntry.word;
+                if (isCorrectSelection) {
                     setPlayerScore(prev => {
                       const newScore = prev + 1;
                       playerScoreRef.current = newScore;
