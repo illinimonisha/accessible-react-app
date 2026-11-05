@@ -194,14 +194,14 @@ function ScrambledScriptLearn() {
             <div style={{ display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  flexWrap: 'wrap',           
-                  gap: '1.5rem',              
-                  marginTop: '1.5rem', }}>  
+                  flexWrap: 'wrap',
+                  gap: '1.5rem',
+                  marginTop: '1.5rem' }}>  
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/Group 118.png"}
+                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/DY1.png"}
                     alt="Comparison of the text House without a house icon and text with a house icon"
-                    style={{ width: '100%', maxWidth: '600px', height: 'auto', borderRadius: '8px' }}
+                    style={{ width: '100%', maxWidth: '600px', height: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
               </div>
@@ -214,15 +214,15 @@ function ScrambledScriptLearn() {
             text="2. Use simple language and sentence structure whenever possible.  "
           >
             <div style={{ display: 'flex', justifyContent: 'center', 
-              flexWrap: 'wrap',           // ✅ allow wrapping
+              flexWrap: 'wrap',
               flexDirection: 'column',
-              gap: '1.5rem',              // smaller gap
+              gap: '1.5rem',
               marginTop: '1rem' }}>
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/Group 236.png"}
+                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/DY2.png"}
                     alt="Comparison of long text versus condensed and easy to understand text."
-                    style={{ width: '100%', maxWidth: '600px', height: 'auto', borderRadius: '8px' }}
+                    style={{ width: '100%', maxWidth: '600px', height: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
               </div>
@@ -238,9 +238,9 @@ function ScrambledScriptLearn() {
                   gap: '1.5rem', marginTop: '1rem' }}>
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/Group 237.png"}
+                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/DY3.png"}
                     alt="Comparison of crowded text versus text with paragraphs and ample whitespace."
-                    style={{ width: '100%', maxWidth: '600px', height: 'auto', borderRadius: '5px' }}
+                    style={{ width: '100%', maxWidth: '600px', height: 'auto', borderRadius: '5px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
 
@@ -254,14 +254,14 @@ function ScrambledScriptLearn() {
             text="4. Use a high-contrast font"
           >
             <div style={{ display: 'flex', justifyContent: 'center', 
-              flexWrap: 'wrap',           // ✅ allow wrapping
-              gap: '1.5rem',              // smaller gap
+              flexWrap: 'wrap',
+              gap: '1.5rem',
               marginTop: '1rem' }}>
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/Group 238.png"}
+                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/DY4.png"}
                     alt="Comparison of low-contrast font versus high-contrast font"
-                    style={{ width: '100%', maxWidth: '500px', height: 'auto', borderRadius: '8px' }}
+                    style={{ width: '100%', maxWidth: '500px', height: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
             </div>
@@ -276,14 +276,14 @@ function ScrambledScriptLearn() {
             <div style={{ display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  flexWrap: 'wrap',           
-                  gap: '1.5rem',              
-                  marginTop: '1.5rem', }}>  
+                  flexWrap: 'wrap',
+                  gap: '1.5rem',
+                  marginTop: '1.5rem' }}>  
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/Group 239.png"}
+                    src={process.env.PUBLIC_URL + "/icons/scrambledScript/DY5.png"}
                     alt="Avoid serif fonts, low contrast fonts, small font sizes, or center and right-aligned text. Use sans-serif fonts, high contrast fonts, larger font sizes, and left-aligned text"
-                    style={{ width: '100%', maxWidth: '500px', height: 'auto', borderRadius: '8px' }}
+                    style={{ width: '100%', maxWidth: '500px', height: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
             </div>

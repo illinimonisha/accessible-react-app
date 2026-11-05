@@ -191,14 +191,14 @@ function SilentSurfingLearn() {
             <div style={{ display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  flexWrap: 'wrap',           
-                  gap: '1.5rem',              
-                  marginTop: '1.5rem', }}>  
+                  flexWrap: 'wrap',
+                  gap: '1.5rem',
+                  marginTop: '1.5rem' }}>  
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/silentSurfing/Group 159.png"}
+                    src={process.env.PUBLIC_URL + "/icons/silentSurfing/D1.png"}
                     alt="Example of video with captions"
-                    style={{ width: '100%', maxWidth: '700px', height: 'auto', borderRadius: '2px' }}
+                    style={{ width: '100%', maxWidth: '700px', height: 'auto', borderRadius: '2px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
               </div>
@@ -214,22 +214,14 @@ function SilentSurfingLearn() {
             <div style={{ display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  flexWrap: 'wrap',           
-                  gap: '1.5rem',              
-                  marginTop: '1.5rem', }}>  
+                  flexWrap: 'wrap',
+                  gap: '1.5rem',
+                  marginTop: '1.5rem' }}>  
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/silentSurfing/avoid.png"}
-                    alt="Avoid example"
-                    style={{ height: '100%', maxHeight: '220px', width: 'auto', borderRadius: '8px' }}
-                  />
-                </div>
-
-                <div style={{ textAlign: 'center' }}>
-                  <img
-                    src={process.env.PUBLIC_URL + "/icons/silentSurfing/instead.png"}
-                    alt="Instead example"
-                    style={{ height: '100%', maxHeight: '220px', width: 'auto', borderRadius: '8px' }}
+                    src={process.env.PUBLIC_URL + "/icons/silentSurfing/D2.png"}
+                    alt="Silent Surfing accessibility example"
+                    style={{ width: '100%', maxWidth: '420px', height: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
             </div>
@@ -244,22 +236,22 @@ function SilentSurfingLearn() {
           <div style={{ display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  flexWrap: 'wrap',           
-                  gap: '3.5rem',              
-                  marginTop: '1.5rem', }}>  
+                  flexWrap: 'wrap',
+                  gap: '3.5rem',
+                  marginTop: '1.5rem' }}>  
                 <div style={{ textAlign: 'center' }}>
                   <img
                     src={process.env.PUBLIC_URL + "/icons/silentSurfing/audio.png"}
                     alt="Avoid example"
-                    style={{ height: '100%', maxHeight: '220px', width: 'auto', borderRadius: '8px' }}
+                    style={{ height: '100%', maxHeight: '220px', width: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
 
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/silentSurfing/volume.png"}
+                    src={process.env.PUBLIC_URL + "/icons/silentSurfing/D3.png"}
                     alt="Instead example"
-                    style={{ height: '100%', maxHeight: '220px', width: 'auto', borderRadius: '8px' }}
+                    style={{ height: '100%', maxHeight: '220px', width: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
             </div>

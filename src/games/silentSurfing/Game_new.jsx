@@ -362,7 +362,7 @@ const AuditoryGame = () => {
         <div ref={gameKeyRef} id="gameKey"></div>
 
         <Modal ref={gameOverPopupRef} show={show} onHide={handleClose} backdrop="static" keyboard={false} centered>
-          <Modal.Header style={{ backgroundColor: MODAL_COLOR }} closeButton>
+          <Modal.Header style={{ backgroundColor: MODAL_COLOR }}>
             <Modal.Title className='w-100 text-center'><h2>{gameOverMessage}</h2></Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ backgroundColor: MODAL_COLOR }}>

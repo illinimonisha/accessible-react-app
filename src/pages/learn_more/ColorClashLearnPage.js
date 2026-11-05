@@ -200,22 +200,14 @@ function ColorBlindnessLearn() {
             <div style={{ display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  flexWrap: 'wrap',           // ✅ allow wrapping
-                  gap: '1.5rem',              // smaller gap
-                  marginTop: '1.5rem', }}>  
+                  flexWrap: 'wrap',
+                  gap: '1.5rem',
+                  marginTop: '1.5rem' }}>  
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/colorClash/Avoid1.png"}
-                    alt="Avoid example"
-                    style={{ width: '85%', maxWidth: '220px', height: 'auto', borderRadius: '8px' }}
-                  />
-                </div>
-
-                <div style={{ textAlign: 'center' }}>
-                  <img
-                    src={process.env.PUBLIC_URL + "/icons/colorClash/Instead1.png"}
-                    alt="Instead example"
-                    style={{ width: '100%', maxWidth: '220px', height: 'auto', borderRadius: '8px' }}
+                    src={process.env.PUBLIC_URL + "/icons/colorClash/CB1.png"}
+                    alt="Color Clash accessibility example"
+                    style={{ width: '100%', maxWidth: '420px', height: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
             </div>
@@ -229,22 +221,14 @@ function ColorBlindnessLearn() {
             text="2. Use sufficient contrast to make the text stand out from the background"
           >
             <div style={{ display: 'flex', justifyContent: 'center', 
-              flexWrap: 'wrap',           // ✅ allow wrapping
-              gap: '1.5rem',              // smaller gap
+              flexWrap: 'wrap',
+              gap: '1.5rem',
               marginTop: '1rem' }}>
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/colorClash/Avoid2.svg"}
-                    alt="Avoid example"
-                    style={{ width: '100%', maxWidth: '220px', height: 'auto', borderRadius: '8px' }}
-                  />
-                </div>
-
-                <div style={{ textAlign: 'center' }}>
-                  <img
-                    src={process.env.PUBLIC_URL + "/icons/colorClash/Instead2.svg"}
-                    alt="Instead example"
-                    style={{ width: '100%', maxWidth: '220px', height: 'auto', borderRadius: '8px' }}
+                    src={process.env.PUBLIC_URL + "/icons/colorClash/CB2.png"}
+                    alt="Color Clash accessibility example"
+                    style={{ width: '100%', maxWidth: '420px', height: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
             </div>
@@ -260,17 +244,9 @@ function ColorBlindnessLearn() {
                   gap: '1.5rem', marginTop: '1rem' }}>
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/colorClash/avoid3.png"}
-                    alt="Avoid example"
-                    style={{ width: '100%', maxWidth: '220px', height: 'auto', borderRadius: '8px' }}
-                  />
-                </div>
-
-                <div style={{ textAlign: 'center' }}>
-                  <img
-                    src={process.env.PUBLIC_URL + "/icons/colorClash/instead3.png"}
-                    alt="Instead example"
-                    style={{ width: '100%', maxWidth: '220px', height: 'auto', borderRadius: '8px' }}
+                    src={process.env.PUBLIC_URL + "/icons/colorClash/CB3.png"}
+                    alt="Color Clash accessibility example"
+                    style={{ width: '100%', maxWidth: '420px', height: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
               </div>
@@ -286,9 +262,9 @@ function ColorBlindnessLearn() {
                   gap: '1.5rem', marginTop: '1rem' }}>
                 <div style={{ textAlign: 'center' }}>
                   <img
-                    src={process.env.PUBLIC_URL + "/icons/colorClash/red circles.png"}
-                    alt="Avoid example"
-                    style={{ width: '100%', maxWidth: '250px', height: 'auto', borderRadius: '8px' }}
+                    src={process.env.PUBLIC_URL + "/icons/colorClash/CB4.png"}
+                    alt="Color Clash accessibility example"
+                    style={{ width: '100%', maxWidth: '420px', height: 'auto', borderRadius: '8px', display: 'block', margin: '0 auto', objectFit: 'contain' }}
                   />
                 </div>
               </div>

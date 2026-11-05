@@ -191,7 +191,7 @@ const ColorblindGame = () =>{
     }
 
     function setTargetColor() { // for the game rounds 1,3, and 4 , pick random target color that isn't yellow
-        const targetColors = roundNumber === ROUND_1 || roundNumber === ROUND_2 || roundNumber === ROUND_4
+        const targetColors = roundNumber === ROUND_1 || roundNumber === ROUND_2 || roundNumber === ROUND_4 || roundNumber === ROUND_3
           ? [RED, GREEN]
           : colors_3;
         targetColor = targetColors[Math.floor(Math.random() * targetColors.length)];
@@ -395,7 +395,7 @@ const ColorblindGame = () =>{
 
         { /* Game over modal */ }
         <Modal ref={gameOverPopupRef} show={show} onHide={handleClose} backdrop="static" keyboard={false} centered>
-          <Modal.Header style={{ backgroundColor: MODAL_COLOR}} closeButton>
+          <Modal.Header style={{ backgroundColor: MODAL_COLOR}}>
             <Modal.Title className='w-100 text-center'><h2>{gameOverMessage}</h2></Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ backgroundColor: MODAL_COLOR}}>
