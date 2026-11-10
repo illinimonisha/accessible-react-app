@@ -163,7 +163,8 @@ const ScrambledScriptGame = () =>{
     const RED = 'red'; const GREEN = 'green'; const YELLOW = 'yellow';
 
     const word_colors = ["font", "bead", "boat", "bag", "ball", "tag", "hat", "bed", "tap"];
-    const dsy_colors = ["fonq", "peaq", "doaʇ", "peg", "pell", "ʇaq", "heq", "peq", "qat"];
+    //const dsy_colors = ["fonq", "peaq", "doaʇ", "peg", "pell", "ʇaq", "heq", "peq", "qat"];
+    const dsy_colors = ["fonq", "paeq", "poeq", "peg", "pell", "qeg", "heq", "paq", "qeb"];
     const wordColorValues = [
       '#A50638', '#C65B95', '#F8E4DC', '#83C9FF', '#D08169',
       '#FF4900', '#E2BAFF', '#D188B0', '#88D1A3'
@@ -315,14 +316,15 @@ const ScrambledScriptGame = () =>{
             ball.setAttribute('fill', color);
 
 
-            const size = radius.current * 0.8;
+            const isDyslexiaRound = roundNumber === ROUND_4;
+            const size = radius.current * (isDyslexiaRound ? 0.6 : 0.8);
 
             //TEXT
             const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');    // text to visually indicate ball color with a letter
             text.setAttribute('x', 0);
             text.setAttribute('y', size/4); // adjustment to center text
             text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('font-size', radius.current * 0.5);
+            text.setAttribute('font-size', radius.current * (isDyslexiaRound ? 0.35 : 0.5));
             text.setAttribute('fill', 'black');
             text.setAttribute('pointer-events', 'none');
             
@@ -331,7 +333,7 @@ const ScrambledScriptGame = () =>{
             const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
             image.setAttribute("href",`${process.env.PUBLIC_URL}/icons/scrambledScript/${word}.svg`);
             image.setAttribute("x", -size / 2);
-            image.setAttribute("y", -radius.current * 0.9);
+            image.setAttribute("y", -radius.current * (isDyslexiaRound ? 0.8 : 0.9));
             image.setAttribute("width", size);
             image.setAttribute("height", size);
             
@@ -375,7 +377,7 @@ const ScrambledScriptGame = () =>{
             group.appendChild(ball);
             if (roundNumber === ROUND_3 || roundNumber === ROUND_4) {
               group.appendChild(image);
-              text.setAttribute('y', radius.current * 0.8);
+              text.setAttribute('y', radius.current * (isDyslexiaRound ? 0.7 : 0.8));
             }
             group.appendChild(text);
             svgRef.current.appendChild(group);
