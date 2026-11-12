@@ -2,7 +2,6 @@
 import React from 'react';
 import Footer from '../components/Footer'; 
 import Header from '../components/Header';
-import V3RestartButton from './V3RestartButton';
 import { Button, Container } from "react-bootstrap";
 import {
   completeV3LearnMore,
@@ -53,11 +52,6 @@ function LearnMorePage({
             flexShrink: 0,
           }}
         >
-          {isV3Flow && (
-            <div style={{ maxWidth: '1200px', margin: '0 auto 1rem' }}>
-              <V3RestartButton />
-            </div>
-          )}
           <button
             onClick={() => window.history.back()}
             aria-label="Go back"

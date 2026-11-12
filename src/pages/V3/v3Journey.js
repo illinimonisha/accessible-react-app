@@ -400,12 +400,6 @@ export function getV3JourneyPath() {
   return readV3Journey()?.v3Path || getDefaultV3Path();
 }
 
-export function restartV3Journey() {
-  const v3Path = getV3JourneyPath();
-  sessionStorage.removeItem(V3_JOURNEY_KEY);
-  window.location.assign(v3Path);
-}
-
 export function getV3ResumeRoute() {
   const journey = readV3Journey();
   if (!journey?.currentGame) {

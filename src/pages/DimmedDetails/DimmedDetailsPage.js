@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import V3RestartButton from '../../components/V3RestartButton';
 import { Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import {
@@ -39,7 +38,6 @@ function DimmedDetailsPage() {
       <section className="py-5" style={{ backgroundColor: '#E3F2FD', position: 'relative' }}>
 
         <Container>
-          {isV3Flow && <V3RestartButton className="mb-3" />}
           <div className="text-center mb-5">
             <h1 className="display-4 fw-bold text-dark mb-2"> Dimmed Details</h1>
             <p className="fs-5 text-dark mb-2">

@@ -34,7 +34,7 @@ function ColorClashRound2InstructionPage() {
     <InstructionPage
       title="Color Clash - Round 2/4"
       instructions={instructions}
-      imagePath={process.env.PUBLIC_URL + "/icons/colorClash/colorClashRound2.svg"} // Path to your PNG image
+      imagePath={process.env.PUBLIC_URL + "/icons/colorClash/CCR2.png"}
       onStartGame={handleStartGame}
     />
   );

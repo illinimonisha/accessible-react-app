@@ -5,7 +5,6 @@ import Footer from '../../components/Footer';
 import ColorClashIcon from '../../components/icons/ColorClashIcon.jsx';
 import SilentSurfingIcon from '../../components/icons/SilentSurfingIcon.jsx';
 import ScrambledScriptIcon from '../../components/icons/ScrambledScriptIcon.jsx';
-import V3RestartButton from '../../components/V3RestartButton';
 import {
   getV3ResumeRoute,
   readV3Journey,
@@ -80,7 +79,6 @@ function V3HomePage() {
               style={{ height: '60px', maxWidth: '100%', objectFit: 'contain' }}
             />
           </Navbar.Brand>
-          <V3RestartButton isV3Page />
         </Container>
       </Navbar>
 

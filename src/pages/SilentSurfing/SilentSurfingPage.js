@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button, Row, Col } from 'react-bootstrap';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import V3RestartButton from '../../components/V3RestartButton';
 import { Link, useLocation } from 'react-router-dom';
 import {
   beginV3Game,
@@ -58,7 +57,6 @@ function SilentSurfingPage() {
         </a> */}
 
         <Container>
-          {isV3Flow && <V3RestartButton className="mb-3" />}
           <div className="text-center mb-5">
             <h1 className="display-4 fw-bold text-dark mb-2">Silent Surfing</h1>
             <p className="fs-5 text-dark mb-2">
@@ -110,7 +108,7 @@ function SilentSurfingPage() {
                 }}
               >
                 <img
-                  src={process.env.PUBLIC_URL + "/icons/silentSurfing/silentSurfingRound2.svg"}
+                  src={process.env.PUBLIC_URL + "/icons/silentSurfing/landingSS.png"}
                   alt="Silent Surfing game illustration"
                   style={{
                     maxWidth: '100%',

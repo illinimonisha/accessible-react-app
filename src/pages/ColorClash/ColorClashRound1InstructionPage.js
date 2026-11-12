@@ -29,7 +29,7 @@ function ColorClashInstructionPage() {
     <InstructionPage
       title="Color Clash - Round 1/4"
       instructions={instructions}
-      imagePath={process.env.PUBLIC_URL + "/icons/colorClash/colorClashRound1.svg"} 
+      imagePath={process.env.PUBLIC_URL + "/icons/colorClash/CCR1.png"}
       onStartGame={handleStartGame}
     />
   );

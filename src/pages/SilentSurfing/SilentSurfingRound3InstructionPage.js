@@ -28,7 +28,7 @@ function SilentSurfingInstructionPage() {
     <InstructionPage
       title="Silent Surfing - Round 3/4"
       instructions={instructions}
-      imagePath={process.env.PUBLIC_URL + "/icons/silentSurfing/silentSurfingRound3.png"}
+      imagePath={process.env.PUBLIC_URL + "/icons/silentSurfing/SSR3.png"}
       onStartGame={handleStartGame}
     />
   );

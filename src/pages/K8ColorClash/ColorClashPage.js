@@ -111,7 +111,7 @@ function ColorClashPage() {
                 }}
               >
                 <img
-                  src={process.env.PUBLIC_URL + "/icons/colorClash/colorClashRound2.svg"}
+                  src={process.env.PUBLIC_URL + "/icons/colorClash/landingCC.png"}
                   alt="Color Clash game illustration"
                   style={{
                     maxWidth: '100%',
